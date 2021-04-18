@@ -16,7 +16,7 @@ function getParameterByName(target) {
 
 function handleResult(resultData) {
     let indexElement = jQuery("#back_to_index");
-    indexElement.append('<p> <a href="index.html">' + "Back to Movies" + '</a> </p>');
+    indexElement.append('<p> <a href="movie-list.html">' + "Back to Movies" + '</a> </p>');
 
     let titleElement = jQuery("#m_title");
     titleElement.append("<p>" + resultData[0]["movie_title"] + "</p>");

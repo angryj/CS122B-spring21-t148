@@ -40,7 +40,7 @@ function handleResult(resultData) {
 
     console.log("handleResult: populating star info from resultData");
     let indexElement = jQuery("#back_to_index");
-    indexElement.append('<p> <a href="index.html">' + "Back to Movies" + '</a> </p>');
+    indexElement.append('<p> <a href="movie-list.html">' + "Back to Movies" + '</a> </p>');
     // populate the star info h3
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#star_info");
