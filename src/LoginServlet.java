@@ -50,6 +50,7 @@ public class LoginServlet extends HttpServlet {
                 if (password.equals(rs.getString("password"))) {
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
+                    request.getSession().setAttribute("user", new User());
                 }
                 else {
                     responseJsonObject.addProperty("message", "incorrect password");
