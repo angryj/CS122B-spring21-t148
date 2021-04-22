@@ -43,6 +43,7 @@ public class LoginFilter implements Filter {
          Always allow your own login related requests(html, js, servlet, etc..)
          You might also want to allow some CSS files, etc..
          */
+        allowedURLs.add("style.css");
         return allowedURLs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
     }
 

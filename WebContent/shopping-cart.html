@@ -30,16 +30,26 @@
             display: flex;
             justify-content: space-between;
         }
-
+        Label {
+            margin: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .button {
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
+<h1>Your Cart</h1>
 <div id = "cart" class="Container">
     <div class = "Content" >
         <form>
             <div class="Item">
                 <label><a href="movie-list.html">Name</a></label>
                 <div>
+                    <label>$10.00</label>
                     <input type="number" name="fname" min="1" value="1">
                     <input type = "button" class="button" value = "Update">
                     <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
@@ -53,6 +63,7 @@
             <div class="Item">
                 <label><a href="movie-list.html">Random Name</a></label>
                 <div>
+                    <label>$10.00</label>
                     <input type="number" name="fname" min="1" value="1">
                     <input type ="button" class="button" value = "Update">
                     <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
