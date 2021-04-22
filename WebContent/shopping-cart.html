@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Fabflix</title>
+    <style>
+        .Container{
+            position: absolute;
+            top: 30%;
+            margin-top: -200px;
+            left: 0;
+            width: 100%;
+        }
+        .Content {
+            width: 70%;
+            padding: 40px;
+            margin: 10px auto;
+            border: 1px solid #000000;
+        }
+        .Item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+    </style>
+</head>
+<body>
+<div id = "cart" class="Container">
+    <div class = "Content" >
+        <form>
+            <div class="Item">
+                <label><a href="movie-list.html">Name</a></label>
+                <div>
+                    <input type="number" name="fname" min="1" value="1">
+                    <input type = "button" class="button" value = "Update">
+                    <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class = "Content" >
+        <form>
+            <div class="Item">
+                <label><a href="movie-list.html">Random Name</a></label>
+                <div>
+                    <input type="number" name="fname" min="1" value="1">
+                    <input type ="button" class="button" value = "Update">
+                    <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="shopping-cart.js"></script>
+</body>
+</html>
