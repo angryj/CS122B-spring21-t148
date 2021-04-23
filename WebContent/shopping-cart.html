@@ -15,16 +15,20 @@
     <style>
         .Container{
             position: absolute;
-            top: 30%;
+            top: 25%;
             margin-top: -200px;
             left: 0;
             width: 100%;
         }
         .Content {
             width: 70%;
-            padding: 40px;
-            margin: 10px auto;
+            padding: 35px;
+            margin: 30px auto;
             border: 1px solid #000000;
+        }
+        .Bottom {
+            width: 75%;
+            margin: auto;
         }
         .Item {
             display: flex;
@@ -36,41 +40,49 @@
         h1 {
             text-align: center;
         }
-        .button {
-            border-radius: 8px;
-        }
+
     </style>
 </head>
 <body>
+<br>
 <h1>Your Cart</h1>
 <div id = "cart" class="Container">
-    <div class = "Content" >
-        <form>
-            <div class="Item">
-                <label><a href="movie-list.html">Name</a></label>
-                <div>
-                    <label>$10.00</label>
-                    <input type="number" name="fname" min="1" value="1">
-                    <input type = "button" class="button" value = "Update">
-                    <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
+    <form id="login_form" action='#' method='GET'>
+        <div class = "Content" >
+            <form>
+                <div class="Item">
+                    <label><a href="movie-list.html"><h5>Name</h5></a></label>
+                    <div>
+                        <label>$10.00</label>
+                        <input type="number" min="1" value="1">
+                        <input type = "button" class="btn btn-primary btn-sm" value = "Update">
+                        <input type = "button" class="btn btn-primary btn-sm" value = "Remove" onClick="delete_row(this);">
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <div class = "Content" >
-        <form>
-            <div class="Item">
-                <label><a href="movie-list.html">Random Name</a></label>
-                <div>
-                    <label>$10.00</label>
-                    <input type="number" name="fname" min="1" value="1">
-                    <input type ="button" class="button" value = "Update">
-                    <input type = "button" class="button" value = "Remove" onClick="delete_row(this);">
+        <div class = "Content" >
+            <form>
+                <div class="Item">
+                    <label><a href="movie-list.html"><h5>Random Name</h5></a></label>
+                    <div>
+                        <label>$10.00</label>
+                        <input type="number" min="1" value="1">
+                        <input type ="button" class="btn btn-primary btn-sm" value = "Update">
+                        <input type = "button" class="btn btn-primary btn-sm" value = "Remove" onClick="delete_row(this);">
+                    </div>
                 </div>
+            </form>
+        </div>
+
+        <div class="Bottom">
+            <div class="Item">
+                <input type ="button" class="btn btn-danger" value = "Clear">
+                <input type = "submit" class="btn btn-danger" value = "Proceed to Checkout">
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 <script src="shopping-cart.js"></script>
 </body>

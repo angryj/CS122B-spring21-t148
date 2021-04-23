@@ -59,19 +59,20 @@
             <table>
                 <tr>
                     <td> <b>Card Number:</b> </td>
-                    <td> <input type='TEXT' name='number' placeholder="Enter Card Number" class="form-control" /> </td>
+                    <td> <input type='TEL' name='number' placeholder="Enter Card Number" class="form-control"
+                                inputmode="numeric" pattern="[0-9]*" autocomplete="cc-number" maxlength="19" required/> </td>
                 </tr>
                 <tr>
                     <td> <b>First Name:</b> </td>
-                    <td> <input type='TEXT' name='fname' placeholder="Enter First Name" class="form-control" /> </td>
+                    <td> <input type='TEXT' name='fname' placeholder="Enter First Name" class="form-control" required/> </td>
                 </tr>
                 <tr>
                     <td> <b>Last Name:</b> </td>
-                    <td> <input type='TEXT' name='lname' placeholder="Enter Last Name" class="form-control"/> </td>
+                    <td> <input type='TEXT' name='lname' placeholder="Enter Last Name" class="form-control" required/> </td>
                 </tr>
                 <tr>
-                    <td> <b>Last Name:</b> </td>
-                    <td> <input type='DATE'  name='date' placeholder="Enter Date" class="form-control"  /> </td>
+                    <td> <b>Date:</b> </td>
+                    <td> <input type='DATE'  name='date' placeholder="Enter Date" class="form-control" required/> </td>
                 </tr>
 
             </table>
