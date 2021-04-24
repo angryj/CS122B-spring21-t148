@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
@@ -51,6 +52,8 @@ public class LoginServlet extends HttpServlet {
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
                     request.getSession().setAttribute("user", new User());
+                    HashMap<String, JsonObject> cart = new HashMap<>();
+                    request.getSession().setAttribute("cart", cart);
                 }
                 else {
                     responseJsonObject.addProperty("message", "incorrect password");

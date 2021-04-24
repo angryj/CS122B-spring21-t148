@@ -32,6 +32,7 @@
         }
         .Item {
             display: flex;
+            margin: auto;
             justify-content: space-between;
         }
         Label {
@@ -44,8 +45,16 @@
     </style>
 </head>
 <body>
-<br>
-<h1>Your Cart</h1>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div style="width: 75%; margin: auto">
+        <a class="navbar-brand" href="movie-list.html">Home</a>
+        <span class="navbar-text">
+            Your Cart
+        </span>
+    </div>
+</nav>
+
 <div id = "cart" class="Container">
     <form id="login_form" action='#' method='GET'>
         <div class = "Content" >
@@ -54,34 +63,34 @@
                     <label><a href="movie-list.html"><h5>Name</h5></a></label>
                     <div>
                         <label>$10.00</label>
-                        <input type="number" min="1" value="1">
+                        <input type="number" name="count" min="1" value="1">
                         <input type = "button" class="btn btn-primary btn-sm" value = "Update">
                         <input type = "button" class="btn btn-primary btn-sm" value = "Remove" onClick="delete_row(this);">
                     </div>
                 </div>
             </form>
         </div>
-
         <div class = "Content" >
             <form>
                 <div class="Item">
                     <label><a href="movie-list.html"><h5>Random Name</h5></a></label>
                     <div>
                         <label>$10.00</label>
-                        <input type="number" min="1" value="1">
+                        <input type="number" name="count" min="1" value="1">
                         <input type ="button" class="btn btn-primary btn-sm" value = "Update">
                         <input type = "button" class="btn btn-primary btn-sm" value = "Remove" onClick="delete_row(this);">
                     </div>
                 </div>
             </form>
         </div>
-
-        <div class="Bottom">
-            <div class="Item">
-                <input type ="button" class="btn btn-danger" value = "Clear">
-                <input type = "submit" class="btn btn-danger" value = "Proceed to Checkout">
-            </div>
+    <div class="Bottom">
+        <br>
+        <br>
+        <div class="Item">
+            <input type ="button" class="btn btn-danger" value = "Clear" onClick="clear_cart(this);">
+            <input type = "button" class="btn btn-danger" value = "Proceed to Checkout" onclick="check_out();">
         </div>
+    </div>
     </form>
 </div>
 <script src="shopping-cart.js"></script>
