@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 
 @WebServlet(name = "ShoppingCartServlet", urlPatterns = "/api/shopping-cart")
-public class ShoppingCartServlet {
+public class ShoppingCartServlet extends HttpServlet{
     private DataSource dataSource;
 
     public void init(ServletConfig config) {
@@ -31,52 +31,64 @@ public class ShoppingCartServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-        String movieId = request.getParameter("id");
+
         PrintWriter out = response.getWriter();
 
         try (Connection conn = dataSource.getConnection()) {
-            //query
-            String query = "SELECT title FROM movies WHERE movies.id = ?;";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, movieId);
-            ResultSet rs = statement.executeQuery();
-
-            JsonObject jsonObject = new JsonObject();
-            while (rs.next()) {
-                String title = rs.getString("title");
-                int price = 10 + Integer.parseInt(movieId.substring(movieId.length() - 2)) % 3;
-                jsonObject.addProperty("movie_title", title);
-                jsonObject.addProperty("movie_id", movieId);
-                jsonObject.addProperty("movie_price", price);
-                jsonObject.addProperty("movie_quantity", 1);
-            }
 
             HttpSession session = request.getSession();
             HashMap<String, JsonObject> cart = (HashMap<String, JsonObject>) session.getAttribute("cart");
-            String action = request.getParameter("action");
-
             if (cart == null) {
                 cart = new HashMap<>();
                 session.setAttribute("cart", cart);
             }
 
-            switch(action) {
-                case "add":
-                    if (cart.get(movieId) == null) {
-                        cart.put(movieId, jsonObject);
-                    }
-                    else {
-                        int qty = Integer.parseInt(cart.get(movieId).get("movie_quantity").toString());
-                        cart.get(movieId).addProperty("movie_quantity", qty + 1);
-                    }
-                    break;
-                case "delete":
-                    cart.remove(movieId);
-                    break;
-                case "update":
-                    int qty = Integer.parseInt(request.getParameter("qty"));
-                    cart.get(movieId).addProperty("movie_quantity", qty);
-                    break;
+            String movieId = request.getParameter("id");
+            String action = request.getParameter("action");
+            if (movieId == null) {
+
+            }
+            else {
+                //query
+                String query = "SELECT title FROM movies WHERE movies.id = ?;";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, movieId);
+                ResultSet rs = statement.executeQuery();
+
+                JsonObject jsonObject = new JsonObject();
+                while (rs.next()) {
+                    String title = rs.getString("title");
+                    int price = 10 + Integer.parseInt(movieId.substring(movieId.length() - 2)) % 3;
+                    jsonObject.addProperty("movie_title", title);
+                    jsonObject.addProperty("movie_id", movieId);
+                    jsonObject.addProperty("movie_price", price);
+                    jsonObject.addProperty("movie_quantity", 1);
+                }
+
+                switch(action) {
+                    case "add":
+                        if (cart.get(movieId) == null) {
+                            cart.put(movieId, jsonObject);
+                        }
+                        else {
+                            int qty = Integer.parseInt(cart.get(movieId).get("movie_quantity").toString());
+                            cart.get(movieId).addProperty("movie_quantity", qty + 1);
+                        }
+                        break;
+                    case "update":
+                        int qty = Integer.parseInt(request.getParameter("qty"));
+                        cart.get(movieId).addProperty("movie_quantity", qty);
+                        break;
+                    case "delete":
+                        cart.remove(movieId);
+                        break;
+                    case "clear":
+                        cart.clear();
+                        break;
+                }
+
+                rs.close();
+                statement.close();
             }
 
             JsonArray jsonArray = new JsonArray();
@@ -87,8 +99,6 @@ public class ShoppingCartServlet {
 
             out.write(jsonArray.toString());
             response.setStatus(200);
-            rs.close();
-            statement.close();
         }
         catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
