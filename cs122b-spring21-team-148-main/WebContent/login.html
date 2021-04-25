@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Fabflixxx</title>
+    <style>
+        .Container{
+            position: absolute;
+            top: 30%;
+            margin-top: -200px;
+            left: 0;
+            width: 100%;
+        }
+        .Content {
+            width: 30%;
+            padding: 90px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #000000;
+        }
+        input::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        input:focus::-webkit-input-placeholder {
+            color: #888;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="Container">
+    <div class = "Content" >
+        <h1>Login</h1>
+        <form id="login_form" action='#' method='POST' style="display: inline-block" />
+        <table style="text-align: center;">
+            <tr>
+                <td> <b>Email Address:</b> </td>
+                <td> <input type='TEXT' name='email' placeholder="Enter Email" style='padding: 4px'/> </td>
+            </tr>
+            <tr>
+                <td> <b>Password:</b> </td>
+                <td> <input type='PASSWORD' name='password' placeholder="Enter Password" style='padding: 4px'/> </td>
+            </tr>
+            <tr> <td> </td>
+                <td> <input type='SUBMIT' name='enter' value='Submit' style="width: 100%"/> </td>
+            </tr>
+        </table>
+        </form>
+        <div id="login_error_message"></div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include our own JS file -->
+<script src="login.js"></script>
+
+</body>
+</html>
