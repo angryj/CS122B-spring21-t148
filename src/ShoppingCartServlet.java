@@ -58,7 +58,7 @@ public class ShoppingCartServlet extends HttpServlet{
                 JsonObject jsonObject = new JsonObject();
                 while (rs.next()) {
                     String title = rs.getString("title");
-                    int price = 10 + Integer.parseInt(movieId.substring(movieId.length() - 2)) % 3;
+                    int price = 10 + Integer.parseInt(movieId.substring(movieId.length() - 2)) % 10;
                     jsonObject.addProperty("movie_title", title);
                     jsonObject.addProperty("movie_id", movieId);
                     jsonObject.addProperty("movie_price", price);
@@ -111,4 +111,46 @@ public class ShoppingCartServlet extends HttpServlet{
             out.close();
         }
     }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String card = request.getParameter("card");
+        String expire = request.getParameter("expire");
+
+        try (Connection conn = dataSource.getConnection()) {
+            String query = "SELECT id, expiration FROM creditcards WHERE id = ?";
+            // ccId = 941, 11/01/2005
+            PreparedStatement statement = conn.prepareStatement(query);
+
+            statement.setString(1, card);
+
+            ResultSet rs = statement.executeQuery();
+
+            JsonObject responseJsonObject = new JsonObject();
+            if (rs.next()) {
+                if (expire.equals(rs.getString(2))) {
+                    responseJsonObject.addProperty("status", "success");
+                    responseJsonObject.addProperty("message", "success");
+                }
+                else {
+                    responseJsonObject.addProperty("status", "dateError");
+                    responseJsonObject.addProperty("message", "invalid expiration date");
+                }
+            }
+            else {
+                responseJsonObject.addProperty("message", "Card " + card + " doesn't exist");
+            }
+
+            response.getWriter().write(responseJsonObject.toString());
+
+        } catch (Exception e) {
+            // write error message JSON object to output
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", e.getMessage());
+            response.getWriter().write(jsonObject.toString());
+
+            // set response status to 500 (Internal Server Error)
+            response.setStatus(500);
+        }
+    }
+
 }

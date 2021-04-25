@@ -14,10 +14,9 @@ function getParameterByName(target) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function check_out()
-{
+function check_out() {
     let blah = document.querySelectorAll('.Content')
-    if (blah.length === 0) {
+    if (blah.length <= 1) {
         alert("The cart is empty.");
     }
     else {
@@ -71,20 +70,20 @@ function updateCart() {
 }
 
 function fillCart(resultData) {
-    let body = jQuery("#login_form");
+    let body = jQuery("#cart_form");
     let totalCost = 0;
     for (let i = 0; i < resultData.length; i++) {
         let rowHTML = '';
         rowHTML += '<div class = "Content" ><form><div class="Item">';
         rowHTML += '<label><a href="movie.html?id=' + resultData[i]["movie_id"] + '"><h5>' + resultData[i]["movie_title"] + '</h5></a></label>';
-        rowHTML += '<div><label>$'+ resultData[i]["movie_price"] + '.00</label>';
+        rowHTML += '<div><label>$'+ resultData[i]["movie_price"] * resultData[i]["movie_quantity"] + '.00</label>';
         rowHTML += '<input type="hidden" name="action" min="1" value="update"><input type="hidden" name="id" min="1" value="'+ resultData[i]["movie_id"] + '">';
         rowHTML += '<input type="number" name="qty" min="1" value="' + resultData[i]["movie_quantity"] + '">&nbsp;';
         rowHTML += '<input type="submit" class="btn btn-primary btn-sm" value = "Update">';
         rowHTML += '&nbsp;<a class="btn btn-primary btn-sm" href=shopping-cart.html?action=delete&id=' + resultData[i]["movie_id"] + '>'+ "Remove" + '</a>';
         rowHTML += '</div> </div> </form> </div>';
         body.append(rowHTML);
-        totalCost += resultData[i]["movie_quantity"]*1 * resultData[i]["movie_price"]*1;
+        totalCost += resultData[i]["movie_quantity"] * resultData[i]["movie_price"];
     }
     let sum = jQuery("#Sum");
     sum.append('<h5>$'+ totalCost + '.00</h5>')
@@ -101,3 +100,37 @@ switch(action){
     case "clear" : clearCart(); break;
     case null : updateCart();
 }
+
+let login_form = $("#login_form");
+
+function submitLoginForm(formSubmitEvent) {
+    formSubmitEvent.preventDefault();
+
+    $.ajax(
+        "api/shopping-cart", {
+            method: "POST",
+            data: login_form.serialize(),
+            success: handleLoginResult
+        }
+    );
+}
+
+function handleLoginResult(resultDataString) {
+    let resultDataJson = JSON.parse(resultDataString);
+
+    // If login succeeds, it will redirect the user to index.html
+    if (resultDataJson["status"] === "success") {
+        alert("Purchase Successful!");
+        window.location.replace("confirmation.html");
+    } else {
+        // If login fails, the web page will display
+        // error messages on <div> with id "login_error_message"
+        console.log("show error message");
+        console.log(resultDataJson["message"]);
+        alert("Purchase unsuccessful");
+        $("#login_error_message").text(resultDataJson["message"]);
+    }
+
+}
+
+login_form.submit(submitLoginForm);

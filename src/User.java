@@ -1,10 +1,16 @@
-import java.util.HashMap;
 
 public class User {
-    protected HashMap<String, Integer> cart;
+
+    private int id;
+
     public User() {
-         cart = new HashMap<String, Integer>();
     }
 
+    public User(int id) {
+        this.id = id;
+    }
 
+    public int getId() {
+        return id;
+    }
 }

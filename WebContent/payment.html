@@ -48,7 +48,14 @@
     </style>
 </head>
 <body>
-
+<nav class="navbar navbar-dark bg-dark">
+    <div style="width: 75%; margin: auto">
+        <a class="navbar-brand" href="movie-list.html">Home</a>
+        <span class="navbar-text">
+            Your Cart
+        </span>
+    </div>
+</nav>
 <div id = "cart" class="Container">
 
     <div class = "Content">
@@ -59,7 +66,7 @@
             <table>
                 <tr>
                     <td> <b>Card Number:</b> </td>
-                    <td> <input type='TEL' name='number' placeholder="Enter Card Number" class="form-control"
+                    <td> <input type='TEL' name='card' placeholder="Enter Card Number" class="form-control"
                                 inputmode="numeric" pattern="[0-9]*" autocomplete="cc-number" maxlength="19" required/> </td>
                 </tr>
                 <tr>
@@ -72,7 +79,7 @@
                 </tr>
                 <tr>
                     <td> <b>Date:</b> </td>
-                    <td> <input type='DATE'  name='date' placeholder="Enter Date" class="form-control" required/> </td>
+                    <td> <input type='DATE'  name='expire' placeholder="Enter Date" class="form-control" required/> </td>
                 </tr>
 
             </table>
@@ -84,5 +91,9 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="shopping-cart.js"></script>
 </body>
 </html>
