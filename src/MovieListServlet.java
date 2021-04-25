@@ -35,10 +35,142 @@ public class MovieListServlet extends HttpServlet {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
+            String t = request.getParameter("Title");
+            String y = request.getParameter("Year");
+            String d = request.getParameter("Director");
+            String n = request.getParameter("Name");
+            String l = request.getParameter("letter");
+            String g = request.getParameter("genre");
+            String s = request.getParameter("sort");
+            String show = request.getParameter("show");
+            String page = request.getParameter("pageNumber");
+            String sortBy = "";
+            String pageNumber = "";
+            String offsetAsString = "0";
+
+
+
+            //if there is no show parameter, use a default of 25
+            if(show == null)
+            {
+                show = "25";
+            }
+
+            //if there is no page number parameter, offset is 0
+            if(page == null)
+            {
+                offsetAsString = "0";
+            }
+            else{
+                int temp = Integer.parseInt(show);
+                int temp2 = Integer.parseInt(page);
+                int offset = temp*temp2 - temp;
+                offsetAsString = Integer.toString(offset);
+            }
+
+            //turns the sort parameter into a query
+            if(s == null)
+            {
+                sortBy = "movies.title ASC, r.rating DESC";
+            }
+
+            else if(s.equals("titleASCratingDESC"))
+            {
+                sortBy = "movies.title ASC, r.rating DESC";
+            }
+
+            else if(s.equals("titleASCratingASC"))
+            {
+                sortBy = "movies.title ASC, r.rating ASC";
+            }
+
+            else if(s.equals("titleDESCratingDESC"))
+            {
+                sortBy = "movies.title DESC, r.rating DESC";
+            }
+
+            else if(s.equals("titleDESCratingASC"))
+            {
+                sortBy = "movies.title DESC, r.rating ASC";
+            }
+
+            else if(s.equals("ratingASCtitleDESC"))
+            {
+                sortBy = "r.rating ASC, movies.title DESC";
+            }
+
+            else if(s.equals("ratingASCtitleASC"))
+            {
+                sortBy = "r.rating ASC, movies.title ASC";
+            }
+
+            else if(s.equals("ratingDESCtitleDESC"))
+            {
+                sortBy = "r.rating DESC, movies.title DESC";
+            }
+
+            else if(s.equals("ratingDESCtitleASC"))
+            {
+                sortBy = "r.rating DESC, movies.title ASC";
+            }
+
+            //helper is used for the WHERE part of the query
+            String helper = "";
+
+            //helper2 is used for the HAVING part of the query
+            String helper2 = "";
+
+            //turn the URL parameters from a user search into a query
+            if (g!=null)
+            {
+                helper2 += "HAVING genre LIKE " + "\"%" + g + "%\"";
+            }
+            if(l!=null)
+            {
+                System.out.println(l);
+                helper += "movies.title LIKE " + "\"" + l + "%\"" + " and";
+            }
+            if(t!=null)
+            {
+                helper += "movies.title LIKE " + "\"%" + t + "%\"" + " and ";
+            }
+            if(y!= null)
+            {
+                helper += "movies.year = " + y + " and ";
+            }
+            if(d!= null)
+            {
+                helper += "movies.director LIKE " + "\"%" + d + "%\"" + " and ";
+            }
+
+            if(n!=null)
+            {
+                helper2 += "HAVING name LIKE " + "\"%" + n + "%\"";
+            }
+
+            //strip off the "and" at the end of the helper
+            if(helper != "") {
+                helper = helper.substring(0, helper.length() - 4);
+            }
 
             // prepare query
-            String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, genres, stars, star_ids FROM movies INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings ORDER BY rating DESC LIMIT 20) as r ON movies.id = r.movieId INNER JOIN (SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as stars, GROUP_CONCAT(id ORDER BY c.movieId) as star_ids FROM (SELECT r.movieId, stars.name, stars.id FROM stars_in_movies, (SELECT movieId FROM ratings ORDER BY rating DESC LIMIT 20) as r, stars WHERE stars_in_movies.movieId = r.movieId AND stars_in_movies.starId = stars.id) as c GROUP BY c.movieId) as s ON movies.id = s.movieId INNER JOIN ( SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as genres FROM (SELECT r.movieId, genres.name FROM genres, (SELECT movieId FROM ratings ORDER BY rating DESC LIMIT 20) as r, genres_in_movies WHERE genres_in_movies.movieId = r.movieId AND genres_in_movies.genreId = genres.id) as c GROUP BY c.movieId) as g ON movies.id = g.movieId;";
+            //String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, genres, stars, star_ids FROM movies INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings ORDER BY rating DESC LIMIT 20) as r ON movies.id = r.movieId INNER JOIN (SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as stars, GROUP_CONCAT(id ORDER BY c.movieId) as star_ids FROM (SELECT r.movieId, stars.name, stars.id FROM stars_in_movies, (SELECT movieId FROM ratings ORDER BY rating DESC LIMIT 20) as r, stars WHERE stars_in_movies.movieId = r.movieId AND stars_in_movies.starId = stars.id) as c GROUP BY c.movieId) as s ON movies.id = s.movieId INNER JOIN ( SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as genres FROM (SELECT r.movieId, genres.name FROM genres, (SELECT movieId FROM ratings ORDER BY rating DESC LIMIT 20) as r, genres_in_movies WHERE genres_in_movies.movieId = r.movieId AND genres_in_movies.genreId = genres.id) as c GROUP BY c.movieId) as g ON movies.id = g.movieId;";
             // execute query
+            String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, GROUP_CONCAT(DISTINCT g.name) as genre, GROUP_CONCAT(DISTINCT s.name ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC) as name, GROUP_CONCAT(DISTINCT s.id ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC) as nameId"
+            + " FROM movies  INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings) as r ON movies.id = r.movieId"
+             + " INNER JOIN( SELECT stars.id,stars.name, stars_in_movies.movieId FROM stars, stars_in_movies WHERE stars.id = stars_in_movies.starId) as s ON s.movieId = r.movieId"
+           + " INNER JOIN(SELECT genres.name,genres_in_movies.movieId FROM genres, genres_in_movies WHERE genres.id = genres_in_movies.genreId) as g on g.movieId = r.movieId";
+
+            if(helper!="") {
+                 query += " WHERE " + helper;
+             }
+            query += " GROUP BY movies.id ";
+              if(helper2!=""){
+                  query += helper2;
+              }
+           query += " ORDER BY " + sortBy;
+              query += " LIMIT " + show + " OFFSET " + offsetAsString;
+
             ResultSet rs = statement.executeQuery(query);
             JsonArray jsonArray = new JsonArray();
 
