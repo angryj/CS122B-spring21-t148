@@ -25,8 +25,10 @@ function handleResult(resultData) {
     infoElement.append(
         "<p>Director: " + resultData[0]["movie_director"] + "</p>" +
         "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
-        "<p>Rating: " + resultData[0]["movie_rating"] + "</p>"
+        "<p>Rating: " + resultData[0]["movie_rating"] + "</p>" +
+        "<button class='btn btn-info'  onclick=\"addMovie(\'" + resultData[0]['movie_id'] + "\')\"> Add to Cart </button>"
     );
+
 
     let genresElement = jQuery("#genres_table_body");
     genresElement.append(

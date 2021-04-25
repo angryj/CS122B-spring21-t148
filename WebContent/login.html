@@ -9,9 +9,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="style.css">
     <title>Fabflix</title>
     <style>
+        td
+        {
+            padding:0px 15px;
+        }
+
+
         .Container{
             position: absolute;
             top: 30%;
@@ -34,6 +40,10 @@
         input:focus::-webkit-input-placeholder {
             color: #888;
         }
+            table {
+                border-collapse:separate;
+                border-spacing: 0 1em;
+            }
 
     </style>
 </head>
@@ -53,7 +63,7 @@
                 <td> <input type='PASSWORD' name='password' placeholder="Enter Password" style='padding: 4px'/> </td>
             </tr>
             <tr> <td> </td>
-                <td> <input type='SUBMIT' name='enter' value='Submit' style="width: 100%"/> </td>
+                <td> <input type='SUBMIT' name='enter' class="button"  value='Submit' style="width: 100%"/> </td>
             </tr>
         </table>
         </form>

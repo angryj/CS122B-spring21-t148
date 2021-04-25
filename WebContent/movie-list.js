@@ -36,6 +36,7 @@ function handleMoviesResult(resultData) {
             + "<td>" + resultData[i]["movie_director"] + "<td>"
             + "<td>" + resultData[i]["movie_rating"] + "<td>"
             + "<td>" + resultData[i]["movie_genres"] + "<td>";
+
         if (threeStars.length > 2) {
             rowHTML +=
             "<th>" +
