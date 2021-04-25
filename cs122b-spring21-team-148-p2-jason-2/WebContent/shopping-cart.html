@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Fabflix</title>
+    <style>
+        .Container{
+            position: absolute;
+            top: 25%;
+            margin-top: -200px;
+            left: 0;
+            width: 100%;
+        }
+        .Content {
+            width: 70%;
+            padding: 35px;
+            margin: 30px auto;
+            border: 1px solid #000000;
+        }
+        .Bottom {
+            width: 75%;
+            margin: auto;
+        }
+
+        .Item {
+            display: flex;
+            margin: auto;
+            justify-content: space-between;
+        }
+        Label {
+            margin: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div style="width: 75%; margin: auto">
+        <a class="navbar-brand" href="movie-list.html">Home</a>
+        <span class="navbar-text">
+            Your Cart
+        </span>
+    </div>
+</nav>
+
+<div id = "cart" class="Container">
+    <form id="cart_form" action='#' method='GET'>
+
+    </form>
+
+    <form id="bottom_form" action='#' method='GET'>
+        <div class="Content">
+            <div class="Item">
+                <h5>Total Price: </h5>
+                <div id="Sum"></div>
+            </div>
+        </div>
+        <div class="Bottom">
+            <br>
+            <br>
+            <div class="Item">
+                <a class="btn btn-danger" href=shopping-cart.html?action=clear>Clear</a>
+                <input type ="button" class="btn btn-danger" value = "Proceed to Checkout" onclick="check_out();">
+            </div>
+        </div>
+    </form>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="shopping-cart.js"></script>
+</body>
+</html>
