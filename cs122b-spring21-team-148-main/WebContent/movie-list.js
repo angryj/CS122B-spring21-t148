@@ -30,6 +30,8 @@ function handleMoviesResult(resultData) {
         let threeStars = resultData[i]["movie_stars"].split(",", 3);
         // get ids
         let threeIds = resultData[i]["star_ids"].split(",", 3);
+        let threeGenres = resultData[i]["movie_genres"].split(",", 3);
+        console.log(threeGenres);
 
         rowHTML +=
             "<td>" + '<a href="movie.html?id=' + resultData[i]['movie_id'] + '">' +
@@ -37,7 +39,57 @@ function handleMoviesResult(resultData) {
             + "<td>" + resultData[i]["movie_year"] + "<td>"
             + "<td>" + resultData[i]["movie_director"] + "<td>"
             + "<td>" + resultData[i]["movie_rating"] + "<td>"
-            + "<td>" + resultData[i]["movie_genres"] + "<td>";
+            //+ "<td>" + resultData[i]["movie_genres"] + "<td>";
+        if (threeGenres.length > 2) {
+            rowHTML +=
+                "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
+                + threeGenres[0] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>" + "," + "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[1] + '">'
+                + threeGenres[1] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>"
+
+                +  "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[2] + '">'
+                + threeGenres[2] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>"
+
+            //rowHTML += "<td>" + threeStars[0] + ", " + threeStars[1] + ", " + threeStars[2] + "<td>";
+        }
+        else if (threeGenres.length > 1) {
+            rowHTML +=
+                "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
+                + threeGenres[0] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>" + "," + "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[1] + '">'
+                + threeGenres[1] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>"        }
+        else {
+            rowHTML +=
+                "<th>" +
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
+                + threeGenres[0] +
+                // display star_name for the link text
+                '</a>' +
+                "</th>"        }
         if (threeStars.length > 2) {
             rowHTML +=
                 "<th>" +

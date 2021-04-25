@@ -63,6 +63,8 @@ public class StarServlet extends HttpServlet {
             // Perform the query
             ResultSet rs = statement.executeQuery();
 
+
+
             JsonArray jsonArray = new JsonArray();
 
             // Iterate through each row of rs
