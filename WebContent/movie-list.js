@@ -21,10 +21,30 @@ function handleMoviesResult(resultData) {
     // Populate the star table
     // Find the empty table body by id "star_table_body"
     let starTableBodyElement = jQuery("#movie_table_body");
+    let urlparams = window.location.search;
+    let searchParams = new URLSearchParams(urlparams);
+    let page = searchParams.get("pageNumber")
+    let pageNum = 1
 
+    if(page != null)
+    {
+        pageNum = parseInt(page);
+    }
+    let numShow = searchParams.get("show")
+    if(numShow == null)
+    {
+        numShow = 25;
+    }
+
+    //hide the next button if theres no more results
+    if(numShow>resultData.length)
+    {
+        let b = document.getElementById("Next");
+        b.style.display = "none";
+    }
     // Iterate through resultData, no more than 10 entries
     for (let i = 0; i < resultData.length; i++) {
-        let rank = i+1;
+        let rank = i+1 +((pageNum-1)*numShow)
         let rowHTML = "";
         rowHTML += "<tr><td>"+ rank + "<td>";
         let threeStars = resultData[i]["movie_stars"].split(",", 3);
