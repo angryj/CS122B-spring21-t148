@@ -57,7 +57,7 @@ function handleCartInfo(cartEvent) {
         data: cart.serialize(),
         success: resultDataString => {
             let resultDataJson = JSON.parse(resultDataString);
-            handleCartArray(resultDataJson["previousItems"]);
+            //handleCartArray(resultDataJson["previousItems"]);
         }
     });
     var x = document.getElementById("cart")
