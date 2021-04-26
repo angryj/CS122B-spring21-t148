@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,9 +39,11 @@ public class StarServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/json"); // Response mime type
-
+        HttpSession session = request.getSession();
         // Retrieve parameter id from url request.
         String id = request.getParameter("id");
+        String params = (String) session.getAttribute("params");
+
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -87,6 +90,7 @@ public class StarServlet extends HttpServlet {
                 jsonObject.addProperty("movie_title", movieTitle);
                 jsonObject.addProperty("movie_year", movieYear);
                 jsonObject.addProperty("movie_director", movieDirector);
+                jsonObject.addProperty("params", params);
 
                 jsonArray.add(jsonObject);
             }

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,12 +31,16 @@ public class MovieServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/json"); // Response mime type
+        HttpSession session = request.getSession();
+
 
         // Retrieve parameter id from url request.
         String id = request.getParameter("id");
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
+
+        String params = (String) session.getAttribute("params");
 
         // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection()) {
@@ -81,7 +86,7 @@ public class MovieServlet extends HttpServlet {
                 jsonObject.addProperty("movie_stars", stars);
                 jsonObject.addProperty("movie_id", movie_id);
                 jsonObject.addProperty("star_ids", star_ids);
-
+                jsonObject.addProperty("params", params);
                 jsonArray.add(jsonObject);
             }
             rs.close();
