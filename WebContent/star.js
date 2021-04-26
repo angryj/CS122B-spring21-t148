@@ -41,7 +41,7 @@ function handleResult(resultData) {
     console.log("handleResult: populating star info from resultData");
     let indexElement = jQuery("#back_to_index");
     let params = resultData[0]["params"];
-    indexElement.append('<p> <a href= "movie-list.html?' + params +   '">' + "Back to Movies" + '</a> </p>');
+    indexElement.append('<a class="navbar-brand" href= "movie-list.html?' + params +  '">' + "Back" + '</a>');
     // populate the star info h3
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#star_info");
@@ -51,7 +51,7 @@ function handleResult(resultData) {
 
 
     // append two html <p> created to the h3 body, which will refresh the page
-    starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
+    starInfoElement.append("<p>" + resultData[0]["star_name"] + "</p>" +
         "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
 
     console.log("handleResult: populating movie table from resultData");
@@ -64,10 +64,10 @@ function handleResult(resultData) {
     for (let i = 0; i < Math.min(10, resultData.length); i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
-        rowHTML += "<th>" +  '<a href="movie.html?id=' + resultData[i]["movie_id"] + '">' +resultData[i]["movie_title"]  + '</a>' + "</th>";
-        //rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
+        rowHTML += "<td>" +  '<a href="movie.html?id=' + resultData[i]["movie_id"] + '">' +resultData[i]["movie_title"]  + '</a>' + "</td>";
+        //rowHTML += "<td>" + resultData[i]["movie_title"] + "</td>";
+        rowHTML += "<td>" + resultData[i]["movie_year"] + "</td>";
+        rowHTML += "<td>" + resultData[i]["movie_director"] + "</td>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page

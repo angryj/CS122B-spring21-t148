@@ -18,7 +18,7 @@ function handleResult(resultData) {
 
     let indexElement = jQuery("#back_to_index");
     let params = resultData[0]["params"];
-    indexElement.append('<p> <a href= "movie-list.html?' + params +  '">' + "Back to Movies" + '</a> </p>');
+    indexElement.append(' <a class="navbar-brand" href= "movie-list.html?' + params +  '">' + "Back" + '</a>');
 
 
     let titleElement = jQuery("#m_title");
@@ -29,14 +29,21 @@ function handleResult(resultData) {
         "<p>Director: " + resultData[0]["movie_director"] + "</p>" +
         "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
         "<p>Rating: " + resultData[0]["movie_rating"] + "</p>" +
-        "<button class='btn btn-info'  onclick=\"addMovie(\'" + resultData[0]['movie_id'] + "\')\"> Add to Cart </button>"
+        "<button class='btn btn-secondary btn-sm'  onclick=\"addMovie(\'" + resultData[0]['movie_id'] + "\')\"> Add to Cart </button>"
     );
-
 
     let genresElement = jQuery("#genres_table_body");
-    genresElement.append(
-        "<tr><td>" + resultData[0]["movie_genres"] +"</td></tr>"
-    );
+    let genresHTML = '<tr><td>';
+    let genres_split = resultData[0]["movie_genres"].split(",");
+    for (let i = 0; i < genres_split.length; i++) {
+        genresHTML += '<a href="star.html?id=' + genres_split[i] + '">' +genres_split[i]  + '</a>';
+        if (i > 0) {
+            genresHTML += '<a>, </a>';
+        }
+        genresHTML += '</td></tr>';
+    }
+    genresHTML += '</td></tr>';
+    genresElement.append(genresHTML);
 
     let starsElement = jQuery("#stars_table_body");
     let stars_split = resultData[0]["movie_stars"].split(",");
