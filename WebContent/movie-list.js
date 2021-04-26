@@ -24,9 +24,9 @@ function handleMoviesResult(resultData) {
 
     // Iterate through resultData, no more than 10 entries
     for (let i = 0; i < resultData.length; i++) {
-
+        let rank = i+1;
         let rowHTML = "";
-        rowHTML += "<tr>";
+        rowHTML += "<tr><td>"+ rank + "<td>";
         let threeStars = resultData[i]["movie_stars"].split(",", 3);
         // get ids
         let threeIds = resultData[i]["star_ids"].split(",", 3);
@@ -34,112 +34,98 @@ function handleMoviesResult(resultData) {
         console.log(threeGenres);
 
         rowHTML +=
-            "<td>" + '<a href="movie.html?id=' + resultData[i]['movie_id'] + '">' +
-            resultData[i]["movie_title"] + '</a>' +"<td>"
+            "<td>" +
+
+            '<a href="movie.html?id=' + resultData[i]['movie_id'] + '">' +
+            resultData[i]["movie_title"] + '</a>' + "<td>"
             + "<td>" + resultData[i]["movie_year"] + "<td>"
             + "<td>" + resultData[i]["movie_director"] + "<td>"
             + "<td>" + resultData[i]["movie_rating"] + "<td>"
-        //+ "<td>" + resultData[i]["movie_genres"] + "<td>";
+
         if (threeGenres.length > 2) {
             rowHTML +=
-                "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                "<td>" +
                 '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
                 + threeGenres[0] +
-                // display star_name for the link text
-                '</a>' +
-                "</th>" + "," + "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                '</a>' + '<a>, </a>'+
                 '<a href="movie-list.html?genre=' + threeGenres[1] + '">'
                 + threeGenres[1] +
-                // display star_name for the link text
-                '</a>' +
-                "</th>"
-
-                +  "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                '</a>' + '<a>, </a>'+
                 '<a href="movie-list.html?genre=' + threeGenres[2] + '">'
                 + threeGenres[2] +
                 // display star_name for the link text
                 '</a>' +
-                "</th>"
+                "</td>"
 
             //rowHTML += "<td>" + threeStars[0] + ", " + threeStars[1] + ", " + threeStars[2] + "<td>";
         }
         else if (threeGenres.length > 1) {
             rowHTML +=
-                "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                "<td>" +
                 '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
                 + threeGenres[0] +
-                // display star_name for the link text
-                '</a>' +
-                "</th>" + "," + "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                '</a>' + '</a>' + '<a>, </a>'+
                 '<a href="movie-list.html?genre=' + threeGenres[1] + '">'
                 + threeGenres[1] +
-                // display star_name for the link text
                 '</a>' +
-                "</th>"        }
+                "</td>"
+        }
         else {
             rowHTML +=
-                "<th>" +
-                // Add a link to single-star.html with id passed with GET url parameter
+                "<td>" +
                 '<a href="movie-list.html?genre=' + threeGenres[0] + '">'
                 + threeGenres[0] +
-                // display star_name for the link text
                 '</a>' +
-                "</th>"        }
+                "</td>"        }
         if (threeStars.length > 2) {
             rowHTML +=
-                "<th>" +
+                "<td>" +
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[0] + '">'
                 + threeStars[0] +
                 // display star_name for the link text
-                '</a>' +
-                "</th>" + "," + "<th>" +
+                '</a>' + '</a>' + '<a>, </a>'+
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[1] + '">'
                 + threeStars[1] +
                 // display star_name for the link text
-                '</a>' +
-                "</th>"
-
-                +  "<th>" +
+                '</a>' + '</a>' + '<a>, </a>'+
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[2] + '">'
                 + threeStars[2] +
                 // display star_name for the link text
                 '</a>' +
-                "</th>"
+                "</td>"
 
             //rowHTML += "<td>" + threeStars[0] + ", " + threeStars[1] + ", " + threeStars[2] + "<td>";
         }
         else if (threeStars.length > 1) {
             rowHTML +=
-                "<th>" +
+                "<td>" +
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[0] + '">'
                 + threeStars[0] +
                 // display star_name for the link text
-                '</a>' +
-                "</th>" + "," + "<th>" +
+                '</a>' + '</a>' + '<a>, </a>'+
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[1] + '">'
                 + threeStars[1] +
                 // display star_name for the link text
                 '</a>' +
-                "</th>"        }
+                "</td>"
+        }
         else {
             rowHTML +=
-                "<th>" +
+                "<td>" +
                 // Add a link to single-star.html with id passed with GET url parameter
                 '<a href="star.html?id=' + threeIds[0] + '">'
                 + threeStars[0] +
                 // display star_name for the link text
                 '</a>' +
-                "</th>"        }
+                "</td>"
+        }
+        rowHTML += "<td>"+ "<button class='btn btn-secondary btn-sm'  onclick=\"addMovie(\'" + resultData[i]['movie_id'] + "\')\">+</button>" + "</td>"
+
         rowHTML+= "</tr>";
         // Append the row created to the table body, which will refresh the page
         starTableBodyElement.append(rowHTML);
@@ -148,8 +134,9 @@ function handleMoviesResult(resultData) {
 
 function handleSort(object)
 {
-    var urlparams = window.location.search;
-    var searchParams = new URLSearchParams(urlparams);
+    let urlparams = window.location.search;
+    
+    let searchParams = new URLSearchParams(urlparams);
     if (object.value == "Title Ascending Rating Descending") {
         searchParams.set("sort","titleASCratingDESC");
     }
@@ -162,7 +149,6 @@ function handleSort(object)
     if (object.value == "Title Descending Rating Ascending") {
         searchParams.set("sort","titleDESCratingASC");
     }
-
     if (object.value == "Rating Ascending Title Descending") {
         searchParams.set("sort","ratingASCtitleDESC");
     }
@@ -175,16 +161,13 @@ function handleSort(object)
     if (object.value == "Rating Descending Title Ascending") {
         searchParams.set("sort","ratingDESCtitleASC");
     }
-
     window.location.replace("movie-list.html" + "?" + searchParams);
-
-
 }
 
 function handleShow(object)
 {
-    var urlparams = window.location.search;
-    var searchParams = new URLSearchParams(urlparams);
+    let urlparams = window.location.search;
+    let searchParams = new URLSearchParams(urlparams);
 
     if(object.value == "10")
     {
@@ -209,12 +192,12 @@ function handleShow(object)
 
 function handlePrev()
 {
-    var urlparams = window.location.search;
-    var searchParams = new URLSearchParams(urlparams);
-    var page = searchParams.get("pageNumber")
+    let urlparams = window.location.search;
+    let searchParams = new URLSearchParams(urlparams);
+    let page = searchParams.get("pageNumber")
     if(page != null)
     {
-        var temp = parseInt(page);
+        let temp = parseInt(page);
         temp -= 1;
         temp = temp.toString()
         searchParams.set("pageNumber",temp)
@@ -224,14 +207,14 @@ function handlePrev()
 
 function handleNext()
 {
-    var urlparams = window.location.search;
-    var searchParams = new URLSearchParams(urlparams);
-    var page = searchParams.get("pageNumber")
+    let urlparams = window.location.search;
+    let searchParams = new URLSearchParams(urlparams);
+    let page = searchParams.get("pageNumber")
     if (page == null)
     {
         page = 1;
     }
-    var temp = parseInt(page);
+    let temp = parseInt(page);
     temp += 1;
     temp = temp.toString()
     searchParams.set("pageNumber",temp)
@@ -302,7 +285,7 @@ function setDefault(url)
         val2.value = "100"
     }
 
-    var x = document.getElementById("previous");
+    let x = document.getElementById("previous");
 
     //if on page 1, hide the previous button
     if (searchParams.get("pageNumber") == null || searchParams.get("pageNumber") == "1")
@@ -315,8 +298,8 @@ function setDefault(url)
 }
 
 
-var urlparams = window.location.search;
-var searchParams = new URLSearchParams(urlparams);
+let urlparams = window.location.search;
+let searchParams = new URLSearchParams(urlparams);
 
 //set the text that is displayed inside the textbox of the drop down menu and hide prev/next buttons
 setDefault(searchParams);

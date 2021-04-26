@@ -11,54 +11,81 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Fabflix</title>
-
+    <style>
+        .Container{
+            position: absolute;
+            top: 30%;
+            margin-top: -275px;
+            left: 0;
+            width: 100%;
+         }
+        .Content {
+            width: 75%;
+            margin: 30px auto;
+        }
+    </style>
 </head>
 <body>
 
+<nav class="navbar navbar-dark bg-dark">
+    <div style="width: 76%; margin: auto">
+        <a class="navbar-brand" href="main.html">Home</a>
+        <a class="navbar-brand" href="shopping-cart.html">Cart</a>
+        <span class="navbar-text">
+            Movie List
+        </span>
+    </div>
+</nav>
 
-<h1>Movie List</h1>
-<label for="sort">Sort by:</label>
-<select name="sort" id="sort" onchange="handleSort(this)">
-    <option value="Title Ascending Rating Descending">Title Ascending Rating Descending</option>
-    <option value="Title Ascending Rating Ascending">Title Ascending Rating Ascending</option>
-    <option value="Title Descending Rating Descending">Title Descending Rating Ascending</option>
-    <option value="Title Descending Rating Ascending">Title DEscending Rating Descending</option>
-    <option value="Rating Ascending Title Descending">Rating Ascending Title Descending </option>
-    <option value="Rating Ascending Title Ascending">Rating Ascending Title Ascending</option>
-    <option value="Rating Descending Title Descending">Rating Descending Title Descending</option>
-    <option value="Rating Descending Title Ascending">Rating Descending Title Ascending</option>
-</select>
+<div id = "cart" class="Container">
+    <div class = "Content" >
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort" onchange="handleSort(this)">
+            <option value="Title Ascending Rating Descending">Title Ascending Rating Descending</option>
+            <option value="Title Ascending Rating Ascending">Title Ascending Rating Ascending</option>
+            <option value="Title Descending Rating Descending">Title Descending Rating Ascending</option>
+            <option value="Title Descending Rating Ascending">Title Descending Rating Descending</option>
+            <option value="Rating Ascending Title Descending">Rating Ascending Title Descending </option>
+            <option value="Rating Ascending Title Ascending">Rating Ascending Title Ascending</option>
+            <option value="Rating Descending Title Descending">Rating Descending Title Descending</option>
+            <option value="Rating Descending Title Ascending">Rating Descending Title Ascending</option>
+        </select>
 
-<label for="show">Show:</label>
-<select name="show" id="show" onchange="handleShow(this)">
-    <option value="10">10</option>
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="100">100</option>
-</select>
+        <label for="show">Show:</label>
+        <select name="show" id="show" onchange="handleShow(this)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
 
-<a href = "main.html"> Return to Main Page</a>
+        <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
+        <table id=movie_table class="table" align="center">
+            <!-- Create a table header -->
+            <thead class="thead-dark">
+            <tr>
+                <!-- Titles of each column-->
+                <th>#</th> <th></th>
+                <th>Title</th> <th></th>
+                <th>Year</th> <th></th>
+                <th>Director</th> <th></th>
+                <th>Rating</th> <th></th>
+                <th>Genres</th>
+                <th>Stars</th>
+                <th> +</th>
+            </tr>
+            </thead>
+            <tbody id=movie_table_body></tbody>
 
-<!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
-<table id=movie_table class="table table-striped" align="center">
-    <!-- Create a table header -->
-    <thead>
-    <tr>
-        <!-- Titles of each column-->
-        <th>Title</th> <th></th>
-        <th>Year</th> <th></th>
-        <th>Director</th> <th></th>
-        <th>Rating</th> <th></th>
-        <th>Genres</th> <th></th>
-        <th>Stars</th>
-    </tr>
-    </thead>
-    <tbody id=movie_table_body></tbody>
+        </table>
 
-</table>
+        <button id = "previous" onclick="handlePrev()">Previous</button>
+        <button id  = "Next" onclick="handleNext()">Next</button>
+    </div>
+</div>
 
-<button id = "previous" onclick="handlePrev()">Previous</button>
-<button id  = "Next" onclick="handleNext()">Next</button>
+<h1></h1>
+
 
 
 <!-- Load jQuery and Bootstrap JS -->
@@ -71,4 +98,5 @@
 <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
      otherwise the url is relative to the root path-->
 <script src="movie-list.js"></script>
+<script src="add-to-cart.js"></script>
 </body>

@@ -23,7 +23,6 @@ function handleLoginResult(resultDataString) {
 function submitLoginForm(formSubmitEvent) {
     console.log("submit login form");
     formSubmitEvent.preventDefault();
-
     $.ajax(
         "api/login", {
             method: "POST",
