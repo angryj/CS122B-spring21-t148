@@ -33,6 +33,7 @@ public class MovieListServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
+        System.out.println("test change");
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             String t = request.getParameter("Title");
