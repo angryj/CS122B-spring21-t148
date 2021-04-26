@@ -18,7 +18,7 @@ function handleResult(resultData) {
 
     let indexElement = jQuery("#back_to_index");
     let params = resultData[0]["params"];
-    indexElement.append('<p> <a href= "movie-list.html?' + params +   '">' + "Back to Movies" + '</a> </p>');
+    indexElement.append('<p> <a href= "movie-list.html?' + params +  '">' + "Back to Movies" + '</a> </p>');
 
 
     let titleElement = jQuery("#m_title");
