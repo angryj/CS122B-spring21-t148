@@ -130,10 +130,14 @@ public class MovieListServlet extends HttpServlet {
             {
                 helper2 += "HAVING genre LIKE " + "\"%" + g + "%\"";
             }
-            if(l!=null)
-            {
-                System.out.println(l);
-                helper += "movies.title LIKE " + "\"" + l + "%\"" + " and";
+            if(l!=null) {
+                if (l.equals("*") == false)
+                {
+                    helper += "movies.title LIKE " + "\"" + l + "%\"" + " and";
+                }
+                else{
+                    helper +="movies.title REGEXP " +  "\"^[^0-9A-Za-z]\"" + " and";
+                }
             }
             if(t!=null)
             {
