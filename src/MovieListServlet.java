@@ -37,7 +37,6 @@ public class MovieListServlet extends HttpServlet {
         String queryString = request.getQueryString();
         session.setAttribute("params",queryString);
 
-        System.out.println("test change");
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             String t = request.getParameter("Title");

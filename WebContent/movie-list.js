@@ -51,7 +51,6 @@ function handleMoviesResult(resultData) {
         // get ids
         let threeIds = resultData[i]["star_ids"].split(",", 3);
         let threeGenres = resultData[i]["movie_genres"].split(",", 3);
-        console.log(threeGenres);
 
         rowHTML +=
             "<td>" +
