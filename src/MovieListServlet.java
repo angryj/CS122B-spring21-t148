@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,6 +33,9 @@ public class MovieListServlet extends HttpServlet {
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        String queryString = request.getQueryString();
+        session.setAttribute("params",queryString);
 
         System.out.println("test change");
         try (Connection conn = dataSource.getConnection()) {
