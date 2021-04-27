@@ -45,7 +45,7 @@ public class MovieServlet extends HttpServlet {
         // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection()) {
 
-            String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, genres, stars, star_ids FROM movies\n" +
+           /*String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, genres, stars, star_ids FROM movies\n" +
                     "INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings WHERE ratings.movieId = ? ORDER BY rating) as r ON movies.id = r.movieId  \n" +
                     "INNER JOIN (SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as stars, GROUP_CONCAT(id ORDER BY c.movieId) as star_ids  \n" +
                     "FROM (SELECT r.movieId, stars.name, stars.id FROM stars_in_movies, (SELECT movieId FROM ratings) as r, stars  \n" +
@@ -53,14 +53,20 @@ public class MovieServlet extends HttpServlet {
                     "INNER JOIN ( SELECT c.movieId, GROUP_CONCAT(name ORDER BY c.movieId) as genres FROM (SELECT r.movieId, genres.name  \n" +
                     "FROM genres, (SELECT movieId FROM ratings) as r, genres_in_movies WHERE genres_in_movies.movieId = r.movieId  \n" +
                     "AND genres_in_movies.genreId = genres.id) as c WHERE c.movieId = ? GROUP BY c.movieId) as g ON movies.id = g.movieId \n" +
-                    "WHERE movies.id = ?;";
+                    "WHERE movies.id = ?";*/
+            String query = "SELECT movies.id, movies.title, movies.year, movies.director, r.rating, GROUP_CONCAT(DISTINCT z.name) as genre, GROUP_CONCAT(DISTINCT s.name ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC, s.name) as name, GROUP_CONCAT(DISTINCT s.id ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC, s.name) as nameId"
+                    + " FROM movies  INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings) as r ON movies.id = r.movieId"
+                    + " INNER JOIN( SELECT stars.id,stars.name, stars_in_movies.movieId FROM stars, stars_in_movies WHERE stars.id = stars_in_movies.starId) as s ON s.movieId = r.movieId"
+                    + " INNER JOIN(SELECT genres.name,genres_in_movies.movieId FROM genres, genres_in_movies WHERE genres.id = genres_in_movies.genreId) as z on z.movieId = r.movieId"
+                    + " WHERE movies.id = " + "\"" + id + "\"";
 
+            System.out.println(query);
             PreparedStatement statement = conn.prepareStatement(query);
 
-            statement.setString(1, id);
+           /* statement.setString(1, id);
             statement.setString(2, id);
             statement.setString(3, id);
-            statement.setString(4, id);
+            statement.setString(4, id);*/
 
             ResultSet rs = statement.executeQuery();
 
