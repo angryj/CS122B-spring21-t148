@@ -36,7 +36,7 @@ function handleResult(resultData) {
     let genresHTML = '<tr><td>';
     let genres_split = resultData[0]["movie_genres"].split(",");
     for (let i = 0; i < genres_split.length; i++) {
-        genresHTML += '<a href="star.html?id=' + genres_split[i] + '">' +genres_split[i]  + '</a>';
+        genresHTML += '<a href="movie-list.html?genre=' + genres_split[i] + '">' +genres_split[i]  + '</a>';
         if (i > 0) {
             genresHTML += '<a>, </a>';
         }
