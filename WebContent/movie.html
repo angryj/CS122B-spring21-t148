@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Single Movie Page</title>
+    <style>
+        .Container{
+            position: absolute;
+            top: 5%;
+            left: 0;
+            width: 100%;
+        }
+        .Content {
+            width: 75%;
+            margin: 30px auto;
+        }
+
+        .Content2 {
+            width: 75%;
+            padding: 35px;
+            margin: 30px auto;
+            border: 1px solid #000000;
+        }
+    </style>
+</head>
+<nav class="navbar navbar-dark bg-dark">
+    <div style="width: 76%; margin: auto">
+        <a id="back_to_index"></a>
+        <a class="navbar-brand" href="shopping-cart.html">Cart</a>
+        <span class="navbar-text">
+            Movie Page
+        </span>
+    </div>
+</nav>
+
+<body>
+<div class="Container">
+    <div class="Content2">
+        <h4 id="m_title"></h4>
+        <h6 id="m_info"></h6>
+        <h6 id="cart"></h6>
+    </div>
+
+    <div class = "Content" >
+        <table id=genres_table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Genres</th>
+            </tr>
+            </thead>
+            <tbody id=genres_table_body></tbody>
+        </table>
+        <table id=stars_table class="table table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Stars</th>
+            </tr>
+            </thead>
+            <tbody id=stars_table_body></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Load jQuery and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script src="movie.js"></script>
+<script src="add-to-cart.js"></script>
+</body>
+</html>
