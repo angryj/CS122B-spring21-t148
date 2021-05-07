@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
          */
 
         try (Connection conn = dataSource.getConnection()) {
-            String query = "SELECT email, password, id FROM customers WHERE email = ?;";
+            String query = "SELECT email, password FROM customers WHERE email = ?;";
 
             PreparedStatement statement = conn.prepareStatement(query);
 
@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
                     request.getSession().setAttribute("user", new User());
-                    request.getSession().setAttribute("id", rs.getInt("id"));
+
                     HashMap<String, JsonObject> cart = new HashMap<>();
                     request.getSession().setAttribute("cart", cart);
                 }
