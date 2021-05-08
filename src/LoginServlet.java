@@ -39,7 +39,17 @@ public class LoginServlet extends HttpServlet {
             FROM customers
             WHERE email = "a@email.com" AND password = "a2";
          */
+        try {
+            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+        } catch (Exception e) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("message", e.getMessage());
+            response.getWriter().write(jsonObject.toString());
 
+            // set response status to 500 (Internal Server Error)
+            response.setStatus(600);
+            return;
+        }
 
         try (Connection conn = dataSource.getConnection()) {
 
@@ -57,7 +67,7 @@ public class LoginServlet extends HttpServlet {
                 String encryptedPassword = rs.getString("password");
                 boolean success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
 
-                if (password.equals(success)) {
+                if (success) {
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
                     request.getSession().setAttribute("user", new User());
