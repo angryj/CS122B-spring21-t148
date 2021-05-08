@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
@@ -30,13 +32,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+
         /*
             SELECT email, password
             FROM customers
             WHERE email = "a@email.com" AND password = "a2";
          */
 
+
         try (Connection conn = dataSource.getConnection()) {
+
             String query = "SELECT email, password FROM customers WHERE email = ?;";
 
             PreparedStatement statement = conn.prepareStatement(query);
@@ -48,7 +54,10 @@ public class LoginServlet extends HttpServlet {
             JsonObject responseJsonObject = new JsonObject();
             responseJsonObject.addProperty("message", "incorrect password");
             if (rs.next()) {
-                if (password.equals(rs.getString("password"))) {
+                String encryptedPassword = rs.getString("password");
+                boolean success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+
+                if (password.equals(success)) {
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
                     request.getSession().setAttribute("user", new User());
@@ -69,7 +78,7 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             // write error message JSON object to output
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("errorMessage", e.getMessage());
+            jsonObject.addProperty("message", e.getMessage());
             response.getWriter().write(jsonObject.toString());
 
             // set response status to 500 (Internal Server Error)
