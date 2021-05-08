@@ -19,7 +19,6 @@
             padding:0px 15px;
         }
 
-
         .Container{
             position: absolute;
             top: 30%;
@@ -30,23 +29,22 @@
         .Content {
             width: 30%;
             padding: 90px;
-            text-align: center;
             margin-left: auto;
             margin-right: auto;
             border: 1px solid #000000;
+            text-align: center;
         }
-        input::-webkit-input-placeholder {
-            color: transparent;
+        .g-recaptcha {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        input:focus::-webkit-input-placeholder {
-            color: #888;
+        h1 {
+           text-align: center;
         }
-            table {
-                border-collapse:separate;
-                border-spacing: 0 1em;
-            }
-
+        .form-group {
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -54,7 +52,22 @@
 <div class="Container">
     <div class = "Content" >
         <h1>Login</h1>
+        <br>
         <form id="login_form" action='#' method='POST' style="display: inline-block" />
+        <div class="form-group">
+            <label for="email" ><b>Email Address</b> </label>
+            <input type='TEXT' name='email' id='email' class="form-control" placeholder="Enter Email"/>
+        </div>
+        <div class="form-group">
+            <label for="password"><b>Password</b></label>
+            <input type='PASSWORD' name='password' id='password' class="form-control"  placeholder="Enter Password"/>
+        </div>
+        <div class='g-recaptcha' data-sitekey='6LfrBssaAAAAAMqvTxqgxu0f1wTE8KlHmoA0pRzB'></div>
+        <br>
+        <input type='SUBMIT' name='enter' class="btn-primary btn"  value='Submit' style="width: 100%"/>
+
+        <!--
+        old table version
         <table style="text-align: center;">
             <tr>
                 <td> <b>Email Address:</b> </td>
@@ -67,10 +80,13 @@
             <tr> <td> </td>
                 <td> <input type='SUBMIT' name='enter' class="button"  value='Submit' style="width: 100%"/> </td>
             </tr>
-            <tr> <td> </td>
-                <div class='g-recaptcha' data-sitekey='6LfrBssaAAAAAMqvTxqgxu0f1wTE8KlHmoA0pRzB'></div>
-            </tr>
+
         </table>
+        <div class='g-recaptcha' data-sitekey='6LfrBssaAAAAAMqvTxqgxu0f1wTE8KlHmoA0pRzB'></div>
+
+
+        -->
+
         </form>
 
         <div id="login_error_message"></div>
@@ -79,6 +95,8 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
 <!-- include our own JS file -->
 <script src="login.js"></script>
 

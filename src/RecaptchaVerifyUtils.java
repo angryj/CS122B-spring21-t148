@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 public class RecaptchaVerifyUtils {
-	
+
     public static final String SITE_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     public static final String SECRET_KEY ="6LfrBssaAAAAACr5TJL-72WdlxW1jfbb4P_db6_n";
 
@@ -16,9 +16,9 @@ public class RecaptchaVerifyUtils {
         if (gRecaptchaResponse == null || gRecaptchaResponse.length() == 0) {
             throw new Exception("recaptcha verification failed: gRecaptchaResponse is null or empty");
         }
-        
+
         URL verifyUrl = new URL(SITE_VERIFY_URL);
-        
+
         // Open Connection to URL
         HttpsURLConnection conn = (HttpsURLConnection) verifyUrl.openConnection();
 
@@ -34,7 +34,7 @@ public class RecaptchaVerifyUtils {
 
         // Send Request
         conn.setDoOutput(true);
-        
+
         // Get the output stream of Connection
         // Write data in this stream, which means to send data to Server.
         OutputStream outStream = conn.getOutputStream();
@@ -51,17 +51,17 @@ public class RecaptchaVerifyUtils {
         // Get the InputStream from Connection to read data sent from the server.
         InputStream inputStream = conn.getInputStream();
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        
+
         JsonObject jsonObject = new Gson().fromJson(inputStreamReader, JsonObject.class);
-        
+
         inputStreamReader.close();
-        
+
         System.out.println("Response: " + jsonObject.toString());
-        
+
         if (jsonObject.get("success").getAsBoolean()) {
         		return;
         }
-        
+
         throw new Exception("recaptcha verification failed: response is " + jsonObject.toString());
     }
 
