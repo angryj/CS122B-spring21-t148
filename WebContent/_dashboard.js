@@ -48,11 +48,17 @@ function handleStar(cartEvent) {
         data: addstar.serialize(),
         method: "GET",
         url: "api/addstar",
+        success: (resultData) => showSuccess(resultData)
     });
 
-    $("#add_star_message").text("Successfully Added Star");
 
     // clear input form
+}
+
+function showSuccess(resultData)
+{
+    window.alert("Success! Star id is: " + resultData[0]["id"]);
+
 }
 
 jQuery.ajax({

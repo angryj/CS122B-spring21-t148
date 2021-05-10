@@ -83,6 +83,7 @@ public class AddStarServlet extends HttpServlet {
                 int newid = n+1;
                 String newstring = "nm" + Integer.toString(newid);
 
+
                 if(year.equals("") == false) {
                     String insert = "INSERT INTO stars VALUES(?, ?, ?);";
                     PreparedStatement s2 = conn.prepareStatement(insert);
@@ -107,7 +108,7 @@ public class AddStarServlet extends HttpServlet {
                 // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("table",max_id);
+                jsonObject.addProperty("id",newstring);
 
                 jsonArray.add(jsonObject);
             }
