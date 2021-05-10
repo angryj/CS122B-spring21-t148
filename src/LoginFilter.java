@@ -29,7 +29,20 @@ public class LoginFilter implements Filter {
             return;
         }
 
+        String url = httpRequest.getRequestURI();
+        url = url.substring(url.lastIndexOf("/") + 1, url.length());
         // Redirect to login page if the "user" attribute doesn't exist in session
+        if(url.equals("_dashboard.html") && httpRequest.getSession().getAttribute("admin") != null)
+        {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        if(url.equals("_dashboard.html") && httpRequest.getSession().getAttribute("admin") == null)
+        {
+            httpResponse.sendRedirect("login-admin.html");
+            return;
+        }
         if (httpRequest.getSession().getAttribute("user") == null) {
             httpResponse.sendRedirect("login.html");
         } else {
@@ -51,6 +64,16 @@ public class LoginFilter implements Filter {
         allowedURLs.add("login.html");
         allowedURLs.add("login.js");
         allowedURLs.add("api/login");
+
+        allowedURLs.add("login-admin.html");
+        allowedURLs.add("login-admin.js");
+        allowedURLs.add("api/login-admin");
+
+        allowedURLs.add("_dashboard.js");
+        allowedURLs.add("api/metadata");
+
+
+
 
     }
 
