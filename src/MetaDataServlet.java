@@ -71,7 +71,6 @@ public class MetaDataServlet extends HttpServlet {
 
 
                String table =  rs.getString("Tables_in_moviedb");
-               System.out.println(table);
 
 
                 // Create a JsonObject based on the data we retrieve from rs

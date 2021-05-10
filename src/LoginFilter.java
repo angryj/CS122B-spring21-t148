@@ -71,7 +71,7 @@ public class LoginFilter implements Filter {
 
         allowedURLs.add("_dashboard.js");
         allowedURLs.add("api/metadata");
-
+        allowedURLs.add("api/addstar");
 
 
 

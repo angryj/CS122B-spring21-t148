@@ -1,74 +1,139 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
 
-/**
- * This IndexServlet is declared in the web annotation below,
- * which is mapped to the URL pattern /api/index.
- */
-@WebServlet(name = "IndexServlet", urlPatterns = "/api/addstar")
+
+// Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
+@WebServlet(name = "AddStarServlet", urlPatterns = "/api/addstar")
 public class AddStarServlet extends HttpServlet {
+    private static final long serialVersionUID = 2L;
+
+    // Create a dataSource which registered in web.xml
+    private DataSource dataSource;
+
+    public void init(ServletConfig config) {
+        try {
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
-     * handles GET requests to store session information
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json"); // Response mime type
         HttpSession session = request.getSession();
-        String sessionId = session.getId();
-        long lastAccessTime = session.getLastAccessedTime();
+        // Retrieve parameter id from url request.
+        String name = request.getParameter("Name");
+        String year = request.getParameter("Year");
+        int yearint = 0;
 
-        JsonObject responseJsonObject = new JsonObject();
-        responseJsonObject.addProperty("sessionID", sessionId);
-        responseJsonObject.addProperty("lastAccessTime", new Date(lastAccessTime).toString());
 
-        ArrayList<String> previousItems = (ArrayList<String>) session.getAttribute("previousItems");
-        if (previousItems == null) {
-            previousItems = new ArrayList<>();
+        if(year.equals("") == false)
+        {
+            yearint = Integer.parseInt(year);
         }
-        JsonArray previousItemsJsonArray = new JsonArray();
-        previousItems.forEach(previousItemsJsonArray::add);
-        responseJsonObject.add("previousItems", previousItemsJsonArray);
 
-        // write all the data into the jsonObject
-        response.getWriter().write(responseJsonObject.toString());
-    }
 
-    /**
-     * handles POST requests to add and show the item list information
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String item = request.getParameter("item");
-        System.out.println(item);
-        HttpSession session = request.getSession();
+        // Output stream to STDOUT
+        PrintWriter out = response.getWriter();
 
-        // get the previous items in a ArrayList
-        ArrayList<String> previousItems = (ArrayList<String>) session.getAttribute("previousItems");
-        if (previousItems == null) {
-            previousItems = new ArrayList<>();
-            previousItems.add(item);
-            session.setAttribute("previousItems", previousItems);
-        } else {
-            // prevent corrupted states through sharing under multi-threads
-            // will only be executed by one thread at a time
-            synchronized (previousItems) {
-                previousItems.add(item);
+        // Get a connection from dataSource and let resource manager close the connection after usage.
+        try (Connection conn = dataSource.getConnection()) {
+            // Get a connection from dataSource
+
+            // Construct a query with parameter represented by "?"
+            String query = "SELECT max(id) FROM STARS";
+
+            // Declare our statement
+            PreparedStatement statement = conn.prepareStatement(query);
+
+            // Set the parameter represented by "?" in the query to the id we get from url,
+            // num 1 indicates the first "?" in the query
+
+            // Perform the query
+            ResultSet rs = statement.executeQuery();
+
+            JsonArray jsonArray = new JsonArray();
+
+            // Iterate through each row of rs
+            while (rs.next()) {
+
+
+                String max_id =  rs.getString("max(id)");
+                int n = Integer.parseInt (max_id.replaceFirst("^.*\\D",""));
+                int newid = n+1;
+                String newstring = "nm" + Integer.toString(newid);
+
+                if(year.equals("") == false) {
+                    String insert = "INSERT INTO stars VALUES(?, ?, ?);";
+                    PreparedStatement s2 = conn.prepareStatement(insert);
+                    s2.setString(1, newstring);
+                    s2.setString(2, name);
+                    s2.setInt(3, yearint);
+                    s2.executeUpdate();
+
+                }
+                else{
+                    String insert = "INSERT INTO stars VALUES(?, ?, NULL);";
+                    PreparedStatement s2 = conn.prepareStatement(insert);
+                    s2.setString(1, newstring);
+                    s2.setString(2, name);
+                    s2.executeUpdate();
+                }
+                // Declare our statement
+
+                // Set the parameter represented by "?" in the query to the id we get from url,
+                // num 1 indicates the first "?" in the query
+
+                // Create a JsonObject based on the data we retrieve from rs
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("table",max_id);
+
+                jsonArray.add(jsonObject);
             }
+            rs.close();
+            statement.close();
+
+            // write JSON string to output
+            out.write(jsonArray.toString());
+            // set response status to 200 (OK)
+            response.setStatus(200);
+
+        } catch (Exception e) {
+            // write error message JSON object to output
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("errorMessage", e.getMessage());
+            out.write(jsonObject.toString());
+
+            // set response status to 500 (Internal Server Error)
+            response.setStatus(500);
+        } finally {
+            out.close();
         }
 
-        JsonObject responseJsonObject = new JsonObject();
+        // always remember to close db connection after usage. Here it's done by try-with-resources
 
-        JsonArray previousItemsJsonArray = new JsonArray();
-        previousItems.forEach(previousItemsJsonArray::add);
-        responseJsonObject.add("previousItems", previousItemsJsonArray);
 
-        response.getWriter().write(responseJsonObject.toString());
     }
+
 }
