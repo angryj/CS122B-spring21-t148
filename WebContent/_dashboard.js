@@ -48,7 +48,10 @@ function handleStar(cartEvent) {
         data: addstar.serialize(),
         method: "GET",
         url: "api/addstar",
-        success: (resultData) => showSuccess(resultData)
+        success: (resultData) => showSuccess(resultData),
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
     });
 
 
