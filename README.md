@@ -1,5 +1,5 @@
-### CS 122B Project 2
-Demo:https://www.youtube.com/watch?v=fGh6FQ5PXEQ
+### CS 122B Project 3
+Demo: 
 
 ### To run this:
 1. Clone the repo: https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148.git
@@ -27,8 +27,8 @@ The logic for determining the correct query is located in the file MovieListServ
 
 ### Contributions:
 
-Jason- Creating the Login page, and implementing the shopping cart 
+Jason- ReCaptcha, XML parsing, HTTPS redirection
 
-Angelo- Implementing the main page, extending Movie List page
+Angelo- Prepared Statements, password encrpytion, Dashboard/Stored procedure
 
-Both: Debugging, extending single movies and stars, general css tweaks
+Both: Debugging, CSS
