@@ -34,14 +34,13 @@ function handleMetaData(resultData) {
  * Submit form content with POST method
  * @param cartEvent
  */
-function handleStar(cartEvent) {
+function handleStar() {
     console.log("submit star form");
     /**
      * When users click the submit button, the browser will not direct
      * users to the url defined in HTML form. Instead, it will call this
      * event handler when the event is triggered.
      */
-    //cartEvent.preventDefault();
 
     jQuery.ajax({
         dataType: "json",
@@ -53,6 +52,7 @@ function handleStar(cartEvent) {
            alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
     });
+    addstar[0].reset();
 
 
     // clear input form
@@ -64,7 +64,7 @@ function showSuccess(resultData)
 
 }
 
-function handleMovie(cartEvent) {
+function handleMovie() {
     console.log("submit movie form");
     /**
      * When users click the submit button, the browser will not direct
@@ -92,6 +92,7 @@ function handleMovieFound(resultData)
 {
     if(resultData[0]["movie_found"] == true)
     {
+        addmovie[0].reset();
         window.alert("Movie Already Exists");
     }
     else{
@@ -101,10 +102,8 @@ function handleMovieFound(resultData)
             method: "GET",
             url: "api/addmovie",
             success: (resultData2) => showMessage(resultData2),
-            error: (resultData2) => showMessage(resultData2),
 
         });
-        window.alert("Successfully added movie! movie id: " + resultData2[0]["movieid"] + "star id: " + resultData2[0]["starid"] + "genre id: " + resultData2[0]["genreid"])
 
     }
 
@@ -114,7 +113,9 @@ function handleMovieFound(resultData)
 
 function showMessage(resultData2)
 {
-    console.log("showing data")
+    addmovie[0].reset();
+    window.alert("Successfully added movie! movie id: " + resultData2[0]["movieid"] + " star id: " + resultData2[0]["starid"] + " genre id: " + resultData2[0]["genreid"])
+
 }
 
 
@@ -128,5 +129,4 @@ jQuery.ajax({
 
 
 // Bind the submit action of the form to a event handler function
-addstar.submit(handleStar);
-addmovie.submit(handleMovie);
+//addstar.submit(handleStar);
