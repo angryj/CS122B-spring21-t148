@@ -19,8 +19,8 @@ import java.util.*;
 
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
-@WebServlet(name = "AddStarServlet", urlPatterns = "/api/addstar")
-public class AddStarServlet extends HttpServlet {
+@WebServlet(name = "CheckMovieServlet", urlPatterns = "/api/checkmovie")
+public class CheckMovieServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
     // Create a dataSource which registered in web.xml
@@ -42,11 +42,11 @@ public class AddStarServlet extends HttpServlet {
         response.setContentType("application/json"); // Response mime type
         HttpSession session = request.getSession();
         // Retrieve parameter id from url request.
-        String name = request.getParameter("Name");
+        String title = request.getParameter("Title");
+        String director = request.getParameter("Director");
         String year = request.getParameter("Year");
         int yearint = 0;
-
-
+        boolean movie_found = false;
         if(year.equals("") == false)
         {
             yearint = Integer.parseInt(year);
@@ -61,10 +61,15 @@ public class AddStarServlet extends HttpServlet {
             // Get a connection from dataSource
 
             // Construct a query with parameter represented by "?"
-            String query = "SELECT max(id) FROM stars";
+            String query = "SELECT * FROM movies WHERE movies.title = ? AND movies.year = ? and movies.director = ?";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1,title);
+            statement.setString(2,year);
+            statement.setString(3,director);
+
+            System.out.println(query);
 
             // Set the parameter represented by "?" in the query to the id we get from url,
             // num 1 indicates the first "?" in the query
@@ -76,30 +81,9 @@ public class AddStarServlet extends HttpServlet {
 
             // Iterate through each row of rs
             while (rs.next()) {
+                System.out.println("AAAAAA");
+                movie_found = true;
 
-
-                String max_id =  rs.getString("max(id)");
-                int n = Integer.parseInt (max_id.replaceFirst("^.*\\D",""));
-                int newid = n+1;
-                String newstring = "nm" + Integer.toString(newid);
-
-
-                if(year.equals("") == false) {
-                    String insert = "INSERT INTO stars VALUES(?, ?, ?);";
-                    PreparedStatement s2 = conn.prepareStatement(insert);
-                    s2.setString(1, newstring);
-                    s2.setString(2, name);
-                    s2.setInt(3, yearint);
-                    s2.executeUpdate();
-
-                }
-                else{
-                    String insert = "INSERT INTO stars VALUES(?, ?, NULL);";
-                    PreparedStatement s2 = conn.prepareStatement(insert);
-                    s2.setString(1, newstring);
-                    s2.setString(2, name);
-                    s2.executeUpdate();
-                }
                 // Declare our statement
 
                 // Set the parameter represented by "?" in the query to the id we get from url,
@@ -107,13 +91,15 @@ public class AddStarServlet extends HttpServlet {
 
                 // Create a JsonObject based on the data we retrieve from rs
 
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("id",newstring);
+                //jsonObject.addProperty("id",newstring);
 
-                jsonArray.add(jsonObject);
             }
             rs.close();
             statement.close();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("movie_found",movie_found);
+            jsonArray.add(jsonObject);
+
 
             // write JSON string to output
             out.write(jsonArray.toString());

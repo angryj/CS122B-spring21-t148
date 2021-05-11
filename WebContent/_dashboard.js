@@ -35,7 +35,7 @@ function handleMetaData(resultData) {
  * @param cartEvent
  */
 function handleStar(cartEvent) {
-    console.log("submit cart form");
+    console.log("submit star form");
     /**
      * When users click the submit button, the browser will not direct
      * users to the url defined in HTML form. Instead, it will call this
@@ -48,9 +48,9 @@ function handleStar(cartEvent) {
         data: addstar.serialize(),
         method: "GET",
         url: "api/addstar",
-        success: (resultData) => showSuccess(resultData),
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        success: (resultData) => window.alert("Success! Star id is: " + resultData[0]["id"]),
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
     });
 
@@ -64,6 +64,61 @@ function showSuccess(resultData)
 
 }
 
+function handleMovie(cartEvent) {
+    console.log("submit movie form");
+    /**
+     * When users click the submit button, the browser will not direct
+     * users to the url defined in HTML form. Instead, it will call this
+     * event handler when the event is triggered.
+     */
+    //cartEvent.preventDefault();
+
+    jQuery.ajax({
+        dataType: "json",
+        data: addmovie.serialize(),
+        method: "GET",
+        url: "api/checkmovie",
+        success: (resultData) => handleMovieFound(resultData),
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
+    });
+
+
+    // clear input form
+}
+
+function handleMovieFound(resultData)
+{
+    if(resultData[0]["movie_found"] == true)
+    {
+        window.alert("Movie Already Exists");
+    }
+    else{
+        jQuery.ajax({
+            dataType: "json",
+            data: addmovie.serialize(),
+            method: "GET",
+            url: "api/addmovie",
+            success: (resultData2) => showMessage(resultData2),
+            error: (resultData2) => showMessage(resultData2),
+
+        });
+        window.alert("Successfully added movie! movie id: " + resultData2[0]["movieid"] + "star id: " + resultData2[0]["starid"] + "genre id: " + resultData2[0]["genreid"])
+
+    }
+
+
+
+}
+
+function showMessage(resultData2)
+{
+    console.log("showing data")
+}
+
+
+
 jQuery.ajax({
     dataType: "json",
     method: "GET",
@@ -74,3 +129,4 @@ jQuery.ajax({
 
 // Bind the submit action of the form to a event handler function
 addstar.submit(handleStar);
+addmovie.submit(handleMovie);
