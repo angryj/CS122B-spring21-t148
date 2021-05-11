@@ -25,10 +25,22 @@ Refresh tomcat on the web browser, and the deployed project should appear.
 For title, director, and star, we used the pattern % + search_term + % to get the mysql result we wanted.
 The logic for determining the correct query is located in the file MovieListServlet.java, lines 128-157
 
+### Prepared Statements:
+All queuries use prepared statements:
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/AddMovieServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/AddStarServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/CheckMovieServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/ConfirmationServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/LoginAdminServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/LoginServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/MovieServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/ShoppingCartServlet.java
+https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/StarServlet.java
+
 ### Contributions:
 
-Jason- ReCaptcha, XML parsing, HTTPS redirection
+Jason- ReCaptcha,  XML parsing,  HTTPS redirection
 
-Angelo- Prepared Statements, password encrpytion, Dashboard/Stored procedure
+Angelo- Prepared Statements, password encrpytion, dashboard
 
 Both: Debugging, CSS
