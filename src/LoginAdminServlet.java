@@ -47,7 +47,6 @@ public class LoginAdminServlet extends HttpServlet {
             response.getWriter().write(jsonObject.toString());
 
             // set response status to 500 (Internal Server Error)
-            response.setStatus(600);
             return;
         }
 
