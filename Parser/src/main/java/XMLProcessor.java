@@ -226,7 +226,6 @@ public class XMLProcessor {
             movieInsertStatement.executeBatch();
             genresInMoviesStatement.executeBatch();
             System.out.println("Finished batch insert for tables Movies and Genres_In_Movies");
-            System.out.println(fidToMovieId);
             String starsInsert = "INSERT INTO stars (id, name, birthYear) VALUES (?, ?, ?);";
             PreparedStatement starsInsertStatement = conn.prepareStatement(starsInsert);
             HashMap<String, String> starNameToId = new HashMap<>();
