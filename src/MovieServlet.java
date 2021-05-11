@@ -58,10 +58,11 @@ public class MovieServlet extends HttpServlet {
                     + " FROM movies  INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings) as r ON movies.id = r.movieId"
                     + " INNER JOIN( SELECT stars.id,stars.name, stars_in_movies.movieId FROM stars, stars_in_movies WHERE stars.id = stars_in_movies.starId) as s ON s.movieId = r.movieId"
                     + " INNER JOIN(SELECT genres.name,genres_in_movies.movieId FROM genres, genres_in_movies WHERE genres.id = genres_in_movies.genreId) as z on z.movieId = r.movieId"
-                    + " WHERE movies.id = " + "\"" + id + "\"";
+                    + " WHERE movies.id = ? ";
 
             System.out.println(query);
             PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1,id);
 
            /* statement.setString(1, id);
             statement.setString(2, id);

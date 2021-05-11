@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -38,7 +39,6 @@ public class MovieListServlet extends HttpServlet {
         session.setAttribute("params",queryString);
 
         try (Connection conn = dataSource.getConnection()) {
-            Statement statement = conn.createStatement();
             String t = request.getParameter("Title");
             String y = request.getParameter("Year");
             String d = request.getParameter("Director");
@@ -219,7 +219,7 @@ public class MovieListServlet extends HttpServlet {
 
             }
 
-
+            PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery(query);
             JsonArray jsonArray = new JsonArray();
 
