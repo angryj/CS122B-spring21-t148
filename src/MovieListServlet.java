@@ -140,7 +140,20 @@ public class MovieListServlet extends HttpServlet {
             }
             if(t!=null)
             {
-                helper += "movies.title LIKE " + "\"%" + t + "%\"" + " and ";
+                String[] splitstring = t.split(" ");
+                String newtitle = "";
+                String temp = "";
+                for(int i = 0;i<splitstring.length;i++)
+                {
+                    temp = "+" + splitstring[i] + "* ";
+                    newtitle += temp;
+
+                }
+                //helper += "movies.title LIKE " + "\"%" + t + "%\"" + " and ";
+
+                helper += "MATCH(title) AGAINST (\'" + newtitle + "\' IN BOOLEAN MODE) and";
+                System.out.println("helper is " + helper);
+
             }
             if(y!= null)
             {
