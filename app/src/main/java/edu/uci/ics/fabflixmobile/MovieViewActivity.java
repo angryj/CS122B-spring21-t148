@@ -35,7 +35,22 @@ public class MovieViewActivity extends Activity {
         director.setText(bundle.getString("director"));
         year.setText(bundle.getString("year"));
         genres.setText(bundle.getString("genres"));
-        stars.setText(bundle.getString("stars"));
+
+        String[] split = bundle.getString("stars").split(",");
+
+        int x = 0;
+        String out = " ";
+
+        for (int i = 0; i < split.length; i++ ) {
+            out = out + split[i];
+            if (i < split.length - 1) {
+                out = out + ", ";
+            }
+            if (i % 2 == 1) {
+                out = out + "\n";
+            }
+        }
+        stars.setText(out);
 
     }
 }
