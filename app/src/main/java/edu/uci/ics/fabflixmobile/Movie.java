@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Movie {
     private final String name;
     private final String director;
-    private String movie_id;
     private final short year;
     private ArrayList<String> genres= new ArrayList<String>();
     private ArrayList<String> stars = new ArrayList<String>();
@@ -23,7 +22,6 @@ public class Movie {
         this.name = jsonObject.getString("movie_title");
         this.year = (short) jsonObject.getInt("movie_year");
         this.director = jsonObject.getString("movie_director");
-        this.movie_id = jsonObject.getString("movie_id");
         String[] starsString = jsonObject.getString("movie_stars").split(",");
         String[] genresString = jsonObject.getString("movie_genres").split(",");
         int t = 0;
@@ -47,10 +45,6 @@ public class Movie {
         return director;
     }
 
-    public String getMovie_id() {
-        return movie_id;
-    }
-
     public String getGenres() {
         String out = "";
         if (genres.size() == 1) {
@@ -63,6 +57,22 @@ public class Movie {
             out = genres.get(0) + ", " + genres.get(1) + ", " + genres.get(2);
         }
         return out;
+    }
+
+    public String getGenresAll() {
+        String out = "";
+        for (String i: genres) {
+            out += ", " + i;
+        }
+        return out.substring(2);
+    }
+
+    public String getStarsAll() {
+        String out = "";
+        for (String i: stars) {
+            out += ", " + i;
+        }
+        return out.substring(2);
     }
 
     public String getStars() {
