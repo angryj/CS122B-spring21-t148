@@ -49,10 +49,12 @@ public class Search extends Activity {
                 Request.Method.GET,
                 baseURL + "/api/Movie-List" + "?Title=" + title.getText().toString() +"&",
                 response -> {
-                    message.setText(response);
+                    //message.setText(response);
                     Log.d("search.success", response);
                     Intent listPage = new Intent(Search.this, ListViewActivity.class);
-
+                    Bundle bundle = new Bundle();
+                    bundle.putString("movies", response);
+                    listPage.putExtras(bundle);
                     startActivity(listPage);
                 },
                 error -> {
