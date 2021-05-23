@@ -54,8 +54,9 @@ public class ListViewActivity extends Activity {
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Movie movie = movies.get(position);
-            String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getName(), movie.getYear());
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            //String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getName(), movie.getYear());
+            //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
         });
     }
 }
