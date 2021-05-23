@@ -33,22 +33,27 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        String userAgent = request.getHeader("User-Agent");
+        boolean isAndroid = userAgent.toLowerCase().contains("android");
 
         /*
             SELECT email, password
             FROM customers
             WHERE email = "a@email.com" AND password = "a2";
          */
-        try {
-            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
-        } catch (Exception e) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("message", e.getMessage());
-            response.getWriter().write(jsonObject.toString());
 
-            // set response status to 500 (Internal Server Error)
-            //response.setStatus(600);
-            return;
+        if (!isAndroid) {
+            try {
+                RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+            } catch (Exception e) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("message", e.getMessage());
+                response.getWriter().write(jsonObject.toString());
+
+                // set response status to 500 (Internal Server Error)
+                response.setStatus(500);
+                return;
+            }
         }
 
         try (Connection conn = dataSource.getConnection()) {
