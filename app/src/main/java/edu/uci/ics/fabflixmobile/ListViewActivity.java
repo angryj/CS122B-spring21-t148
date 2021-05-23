@@ -21,8 +21,10 @@ public class ListViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview);
-        pageNumber = findViewById(R.id.page);
         page = 1;
+        pageNumber = findViewById(R.id.page);
+        pageNumber.setText(page+"");
+
 
         // TODO: this should be retrieved from the backend server
 
