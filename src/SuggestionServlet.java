@@ -94,12 +94,19 @@ public class SuggestionServlet extends HttpServlet {
             }
             //helper += "movies.title LIKE " + "\"%" + t + "%\"" + " and ";
 
-            String q = "SELECT title from MOVIES WHERE MATCH(title) AGAINST (\'" + newtitle + "\' IN BOOLEAN MODE)";
+            //String q = "SELECT title from MOVIES WHERE MATCH(title) AGAINST (\'" + newtitle + "\' IN BOOLEAN MODE) LIMIT 10";
+            String q = "SELECT movies.title, movies.id, movies.year, movies.director, r.rating, GROUP_CONCAT(DISTINCT z.name) as genre, GROUP_CONCAT(DISTINCT s.name ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC, s.name) as name, GROUP_CONCAT(DISTINCT s.id ORDER BY (SELECT COUNT(*) FROM stars_in_movies z WHERE z.starId = s.id GROUP BY s.id ) DESC, s.name) as nameId"
+                    + " FROM movies  INNER JOIN (SELECT ratings.movieId, ratings.rating FROM ratings) as r ON movies.id = r.movieId"
+                    + " INNER JOIN( SELECT stars.id,stars.name, stars_in_movies.movieId FROM stars, stars_in_movies WHERE stars.id = stars_in_movies.starId) as s ON s.movieId = r.movieId"
+                    + " INNER JOIN(SELECT genres.name,genres_in_movies.movieId FROM genres, genres_in_movies WHERE genres.id = genres_in_movies.genreId) as z on z.movieId = r.movieId"
+                    + " WHERE MATCH(title) AGAINST  (\'" + newtitle + "\' IN BOOLEAN MODE) OR movies.title = \'" + query + "\'"
+                    + " GROUP BY movies.id ORDER BY movies.title ASC LIMIT 10";
             PreparedStatement statement = conn.prepareStatement(q);
             ResultSet rs = statement.executeQuery(q);
             while(rs.next())
             {
                 String title = rs.getString(1);
+                System.out.println("title is: " + title);
                 jsonArray.add(generateJsonObject(counter, title));
                 counter +=1;
 

@@ -95,26 +95,35 @@ function handleCartInfo(cartEvent) {
 
 function handleLookup(query, doneCallback) {
     console.log("autocomplete initiated")
-    console.log("sending AJAX request to backend Java Servlet")
 
     // TODO: if you want to check past query results first, you can do it here
+    let check = window.sessionStorage.getItem(query);
+     // sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
+        // with the query data
+    console.log(check);
+    if(check == null) {
+        console.log("sending AJAX request to backend Java Servlet")
+        jQuery.ajax({
+            "method": "GET",
+            // generate the request url from the query.
+            // escape the query string to avoid errors caused by special characters
+            "url": "api/suggestion?query=" + escape(query),
+            "success": function (data) {
+                // pass the data, query, and doneCallback function into the success handler
+                handleLookupAjaxSuccess(data, query, doneCallback)
+            },
+            "error": function (errorData) {
+                console.log("lookup ajax error")
+                console.log(errorData)
+            }
+        })
+    }
+    else{
+        console.log("using cache'd query")
+        var jsonData = JSON.parse(check);
+        doneCallback( { suggestions: jsonData } );
+    }
 
-    // sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
-    // with the query data
-    jQuery.ajax({
-        "method": "GET",
-        // generate the request url from the query.
-        // escape the query string to avoid errors caused by special characters
-        "url": "api/suggestion?query=" + escape(query),
-        "success": function(data) {
-            // pass the data, query, and doneCallback function into the success handler
-            handleLookupAjaxSuccess(data, query, doneCallback)
-        },
-        "error": function(errorData) {
-            console.log("lookup ajax error")
-            console.log(errorData)
-        }
-    })
 }
 
 
@@ -131,8 +140,19 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
     // parse the string into JSON
     var jsonData = JSON.parse(data);
     console.log(jsonData)
-
+    window.sessionStorage.setItem(query,data);
+    console.log("new query is now cache'd");
     // TODO: if you want to cache the result into a global variable you can do it here
+    /*if(check == null)
+    {
+        console.log("new query, now cached into storage")
+        window.localStorage.setItem(query,jsonData);
+
+    }
+    else{
+        console.log("cache'd query")
+    }*/
+
 
     // call the callback function provided by the autocomplete library
     // add "{suggestions: jsonData}" to satisfy the library response format according to
@@ -151,6 +171,8 @@ function handleSelectSuggestion(suggestion) {
     // TODO: jump to the specific result page based on the selected suggestion
 
     console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["heroID"])
+    window.location.replace("movie-list.html?Title=" + suggestion["value"]);
+
 }
 
 
@@ -167,7 +189,9 @@ function handleSelectSuggestion(suggestion) {
 $('#autocomplete').autocomplete({
     // documentation of the lookup function can be found under the "Custom lookup function" section
     lookup: function (query, doneCallback) {
-        handleLookup(query, doneCallback)
+        if(query.length>2) {
+            handleLookup(query, doneCallback)
+        }
     },
     onSelect: function(suggestion) {
         handleSelectSuggestion(suggestion)

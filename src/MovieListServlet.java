@@ -151,7 +151,7 @@ public class MovieListServlet extends HttpServlet {
                 }
                 //helper += "movies.title LIKE " + "\"%" + t + "%\"" + " and ";
 
-                helper += "MATCH(title) AGAINST (\'" + newtitle + "\' IN BOOLEAN MODE) and";
+                helper += "MATCH(title) AGAINST (\'" + newtitle + "\' IN BOOLEAN MODE) OR movies.title = \'" + t +  "\' and";
                 System.out.println("helper is " + helper);
 
             }
