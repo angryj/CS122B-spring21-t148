@@ -47,7 +47,7 @@ public class Login extends ActionBarActivity {
 
         BaseURL t = new BaseURL();
         baseURL = t.baseURL;
-
+        message.setText("");
         //assign a listener to call a function to handle the user request when clicking a button
         loginButton.setOnClickListener(view -> login());
     }

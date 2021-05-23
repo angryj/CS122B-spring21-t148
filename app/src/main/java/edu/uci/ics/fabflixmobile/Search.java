@@ -33,7 +33,7 @@ public class Search extends Activity {
         submit = findViewById(R.id.submit);
         title = findViewById(R.id.title);
         message = findViewById(R.id.message);
-
+        message.setText("");
         BaseURL t = new BaseURL();
         baseURL = t.baseURL;
 
@@ -50,10 +50,10 @@ public class Search extends Activity {
                 baseURL + "/api/Movie-List" + "?Title=" + title.getText().toString() +"&",
                 response -> {
                     message.setText(response);
-                    // TODO: should parse the json response to redirect to appropriate functions
-                    //  upon different response value.
                     Log.d("search.success", response);
-                    message.setText(response);
+                    Intent listPage = new Intent(Search.this, ListViewActivity.class);
+
+                    startActivity(listPage);
                 },
                 error -> {
                     // error
