@@ -19,6 +19,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.uci.ics.fabflixmobile.EncodeURI.encodeURIComponent;
+
 public class Search extends Activity {
     private EditText title;
     private TextView message;
@@ -47,13 +49,14 @@ public class Search extends Activity {
 
         final StringRequest searchRequest = new StringRequest(
             Request.Method.GET,
-            baseURL + "/api/Movie-List" + "?Title=" + encodeURIComponent(title.getText().toString()) +"&",
+            baseURL + "/api/Movie-List" + "?Title=" + encodeURIComponent(title.getText().toString()) +"&show=20",
             response -> {
                 //message.setText(response);
                 Log.d("search.success", response);
                 Intent listPage = new Intent(Search.this, ListViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("movies", response);
+                bundle.putString("title", encodeURIComponent(title.getText().toString()));
                 listPage.putExtras(bundle);
                 startActivity(listPage);
             },
@@ -74,25 +77,5 @@ public class Search extends Activity {
         };
         queue.add(searchRequest);
     }
-
-    public static String encodeURIComponent(String s) {
-        String result;
-
-        try {
-            result = URLEncoder.encode(s, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%21", "!")
-                    .replaceAll("\\%27", "'")
-                    .replaceAll("\\%28", "(")
-                    .replaceAll("\\%29", ")")
-                    .replaceAll("\\%7E", "~");
-        } catch (UnsupportedEncodingException e) {
-            result = s;
-        }
-
-        return result;
-    }
-
-
 
 }

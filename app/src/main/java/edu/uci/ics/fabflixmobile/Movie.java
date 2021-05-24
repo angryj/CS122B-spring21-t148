@@ -1,5 +1,7 @@
 package edu.uci.ics.fabflixmobile;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -87,5 +89,11 @@ public class Movie {
             out = stars.get(0) + ", " + stars.get(1) + ", " + stars.get(2);
         }
         return out;
+    }
+
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }

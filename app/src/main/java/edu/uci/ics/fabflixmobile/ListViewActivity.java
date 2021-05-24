@@ -21,13 +21,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.uci.ics.fabflixmobile.EncodeURI.encodeURIComponent;
+
 public class ListViewActivity extends Activity {
     private JSONArray jsonArray;
     private int page;
     private TextView pageNumber;
     private String baseURL;
+    private String title;
     private Button next;
     private Button prev;
+    private ArrayList<Movie> movies;
+    private MovieListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +51,14 @@ public class ListViewActivity extends Activity {
         // TODO: this should be retrieved from the backend server
 
         Bundle bundle = this.getIntent().getExtras();
-        final ArrayList<Movie> movies = new ArrayList<>();
+        title = bundle.getString("title");
+
         //movies.add(new Movie("The Terminal", (short) 2004));
         //movies.add(new Movie("The Final Season", (short) 2007));
 
+        movies = getResponse(bundle.getString("movies"));
 
-        try {
-            jsonArray = new JSONArray(bundle.getString("movies"));
-            int len = jsonArray.length();
-            for (int i = (page-1)*20; i < Math.min(page*20, jsonArray.length() - (page - 1) * 20); i++) {
-
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                movies.add(new Movie(jsonObject));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        MovieListViewAdapter adapter = new MovieListViewAdapter(movies, this);
+        adapter = new MovieListViewAdapter(movies, this);
 
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
@@ -94,10 +88,78 @@ public class ListViewActivity extends Activity {
     }
 
     public void next() {
+        if (movies.size() != 20) {
+            Toast.makeText(getApplicationContext(), "Last Page!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            page++;
+            final RequestQueue queue = NetworkManager.sharedManager(getParent()).queue;
+            final StringRequest nextRequest = new StringRequest(
+                Request.Method.GET,
+                baseURL + "/api/Movie-List" + "?Title=" + title +"&show=20&pageNumber=" + page,
+                response -> {
+                    ArrayList<Movie> nextMovies = getResponse(response);
+                    this.movies.clear();
+                    for (Movie i: nextMovies) {
+                        movies.add(i);
+                    }
 
+                    adapter.notifyDataSetChanged();
+                    pageNumber.setText(page+"");
+                },
+                error -> {
+                    // error
+                    Log.d("search.error", error.toString());
+                }
+        );
+            queue.add(nextRequest);
+        }
     }
 
     public void prev() {
+        if (page == 1) {
+            Toast.makeText(getApplicationContext(), "First Page!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            page--;
+            final RequestQueue queue = NetworkManager.sharedManager(getParent()).queue;
+            final StringRequest prevRequest = new StringRequest(
+                Request.Method.GET,
+                baseURL + "/api/Movie-List" + "?Title=" + title +"&show=20&pageNumber=" + page,
+                response -> {
 
+                    ArrayList<Movie> prevMovies = getResponse(response);
+
+                    this.movies.clear();
+                    for (Movie i: prevMovies) {
+                        movies.add(i);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                    pageNumber.setText(page+"");
+                },
+                error -> {
+                    // error
+                    Log.d("search.error", error.toString());
+                }
+            );
+            queue.add(prevRequest);
+        }
+    }
+
+    public ArrayList<Movie> getResponse (String r) {
+        ArrayList<Movie> m = new ArrayList<>();
+        try {
+            jsonArray = new JSONArray(r);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                m.add(new Movie(jsonObject));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return m;
     }
 }
