@@ -1,4 +1,4 @@
-### CS 122B Project 3
+### CS 122B Project 4
 Demo: 
 
 ### To run this:
@@ -39,8 +39,8 @@ https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/Star
 
 ### Contributions:
 
-Jason- ReCaptcha,  XML parsing,  HTTPS redirection
+Jason- Part 2
 
-Angelo- Prepared Statements, password encrpytion, dashboard
+Angelo- Part 1
 
 Both: Debugging, CSS
