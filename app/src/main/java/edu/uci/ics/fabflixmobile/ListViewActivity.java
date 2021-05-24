@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,18 +22,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ListViewActivity extends Activity {
-    public JSONArray jsonArray;
-    public int page;
-    public TextView pageNumber;
+    private JSONArray jsonArray;
+    private int page;
+    private TextView pageNumber;
     private String baseURL;
+    private Button next;
+    private Button prev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview);
+
         page = 1;
         pageNumber = findViewById(R.id.page);
         pageNumber.setText(page+"");
+        next = findViewById(R.id.next);
+        prev = findViewById(R.id.prev);
 
         BaseURL t = new BaseURL();
         baseURL = t.baseURL;
@@ -63,6 +69,9 @@ public class ListViewActivity extends Activity {
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
 
+        next.setOnClickListener(view -> next());
+        prev.setOnClickListener(view -> prev());
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Movie movie = movies.get(position);
             //String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getName(), movie.getYear());
@@ -80,39 +89,15 @@ public class ListViewActivity extends Activity {
             singleMovie.putExtras(b);
             startActivity(singleMovie);
 
-
-            /*
-             final RequestQueue q = NetworkManager.sharedManager(this).queue;
-
-            final StringRequest movieRequest = new StringRequest(
-                Request.Method.GET,
-                baseURL + "/api/Movie" + "?id=" + movie.getMovie_id(),
-                response -> {
-                    //message.setText(response);
-                    Intent listPage = new Intent(ListViewActivity.this, ListViewActivity.this);
-                    Bundle b = new Bundle();
-                    b.putString("movies", response);
-                    listPage.putExtras(b);
-                    startActivity(listPage);
-                },
-                error -> {
-                    // error
-                    Log.d("search.error", error.toString());
-                }
-            )
-
-            {
-                @Override
-                protected Map<String, String> getParams() {
-                    // POST request form data
-                    final Map<String, String> params = new HashMap<>();
-
-                    return params;
-                }
-            };
-            q.add(movieRequest);
-             */
-
         });
+
+    }
+
+    public void next() {
+
+    }
+
+    public void prev() {
+
     }
 }
