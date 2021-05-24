@@ -78,6 +78,7 @@ public class Login extends ActionBarActivity {
                             message.setText(json.getString("message"));
                         }
                     } catch (JSONException e) {
+                        message.setText("invalid username/password");
                         e.printStackTrace();
                     }
                 },
