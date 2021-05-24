@@ -1,0 +1,87 @@
+<!-- This page will be seen if you logged in -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fablix</title>
+</head>
+<body>
+Welcome to Fablix!
+<p id="sessionID"></p>
+<p id="lastAccessTime"></p>
+<form ACTION="#" id="addstar" METHOD="post">
+    <label>Add Star</label>
+    <br>
+    <label>
+        Name:
+        <input name="Name" required="required" type="text">
+        <br>
+    </label>
+    <label>
+        Year:
+        <input name="Year"  type="text">
+        <br>
+    </label>
+    <button onclick="handleStar()" type="button">add</button>    <br>
+    <br>
+    <br>
+</form>
+<br>
+
+
+<form ACTION="#" id="addmovie" METHOD="post">
+    <label>Add Movie</label>
+    <br>
+    <label>
+        Title:
+        <input name="Title" required="required" type="text">
+        <br>
+    </label>
+    <label>
+        Director:
+        <input name="Director" required="required" type="text">
+        <br>
+    </label>
+    <label>
+        Year:
+        <input name="Year" required="required" type="text">
+        <br>
+    </label>
+
+    <label>
+        Star Name:
+        <input name="Star Name" required="required" type="text">
+        <br>
+    </label>
+    <label>
+        Genre Name:
+        <input name="Genre Name" required="required" type="text">
+        <br>
+    </label>
+    <button onclick="handleMovie()" type="button">add</button>    <br>
+</form>
+<br>
+<br>
+<br>
+
+METADATA
+
+<table id=meta_table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Variables</th>
+        <th>
+    </tr>
+    </thead>
+
+    <!-- Table body is left empty here, will be populated with the data retrieved with single-star.js -->
+    <!-- single-star.js will find this html element by it's id "movie_table_body" -->
+    <tbody id=meta_table_body></tbody>
+</table>
+
+<!-- include your own JS file -->
+<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+<script src="_dashboard.js"></script>
+</body>
+</html>
