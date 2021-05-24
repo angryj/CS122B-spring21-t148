@@ -106,9 +106,9 @@ public class SuggestionServlet extends HttpServlet {
             while(rs.next())
             {
                 String title = rs.getString(1);
+                String id = rs.getString(2);
                 System.out.println("title is: " + title);
-                jsonArray.add(generateJsonObject(counter, title));
-                counter +=1;
+                jsonArray.add(generateJsonObject(id, title));
 
             }
             /*for (Integer id : superHeroMap.keySet()) {
@@ -134,12 +134,12 @@ public class SuggestionServlet extends HttpServlet {
      * }
      *
      */
-    private static JsonObject generateJsonObject(Integer heroID, String heroName) {
+    private static JsonObject generateJsonObject(String ID, String heroName) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("value", heroName);
 
         JsonObject additionalDataJsonObject = new JsonObject();
-        additionalDataJsonObject.addProperty("heroID", heroID);
+        additionalDataJsonObject.addProperty("id", ID);
 
         jsonObject.add("data", additionalDataJsonObject);
         return jsonObject;

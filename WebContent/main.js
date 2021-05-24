@@ -170,8 +170,8 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
 function handleSelectSuggestion(suggestion) {
     // TODO: jump to the specific result page based on the selected suggestion
 
-    console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["heroID"])
-    window.location.replace("movie-list.html?Title=" + suggestion["value"]);
+    console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["id"])
+    window.location.replace("movie.html?id=" + suggestion["data"]["id"]);
 
 }
 
