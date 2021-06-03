@@ -1,5 +1,6 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import logging.TimeLogger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,7 +16,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 @WebServlet(name = "MovieListServlet", urlPatterns = "/api/Movie-List")
 public class MovieListServlet extends HttpServlet {
@@ -31,6 +31,9 @@ public class MovieListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String path = getServletContext().getRealPath("/");
+        TimeLogger logger = new TimeLogger(path);
+        logger.startTSTimer();
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -38,7 +41,9 @@ public class MovieListServlet extends HttpServlet {
         String queryString = request.getQueryString();
         session.setAttribute("params",queryString);
 
+        logger.startTJTimer();
         try (Connection conn = dataSource.getConnection()) {
+            logger.pause();
             String t = request.getParameter("Title");
             String y = request.getParameter("Year");
             String d = request.getParameter("Director");
@@ -231,11 +236,11 @@ public class MovieListServlet extends HttpServlet {
                         +" ORDER BY " + sortBy;
 
             }
-
+            logger.resume();
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery(query);
             JsonArray jsonArray = new JsonArray();
-
+            logger.endTJTimer();
 
             while (rs.next()) {
                 String movie_id = rs.getString(1);
@@ -263,6 +268,8 @@ public class MovieListServlet extends HttpServlet {
             rs.close();
             statement.close();
             out.write(jsonArray.toString());
+            logger.endTSTimer();
+            logger.write();
             // set response status to 200 (OK)
             response.setStatus(200);
         } catch (Exception e) {
@@ -271,6 +278,10 @@ public class MovieListServlet extends HttpServlet {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
             out.write(jsonObject.toString());
+
+            logger.endTSTimer();
+            logger.endTJTimer();
+            logger.write();
 
             // set response status to 500 (Internal Server Error)
             response.setStatus(500);
