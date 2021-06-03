@@ -17,15 +17,15 @@ public class TimeLogger {
     long gap = 0;
 
     public TimeLogger(String path) throws IOException {
-        String logDirPath = path + "logs".replace("/", File.separator);
+        String logDirPath = path + "/logs/".replace("/", File.separator);
         File logDir = new File(logDirPath);
         if(!logDir.exists()){
             logDir.mkdir();
         }
 
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String finalPath = logDirPath + "/log_" + formatter.format(date) + ".log";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String finalPath = logDirPath + "log_" + formatter.format(date) + ".log";
         finalPath = finalPath.replace("/", File.separator);
         File ts_tj_file = new File(finalPath);
 
@@ -55,12 +55,12 @@ public class TimeLogger {
 
     public void endTJTimer() {
         tjEnd = System.nanoTime();
-        tj = tjStart - tjEnd - gap;
+        tj = tjEnd - tjStart - gap;
 
     }
 
     public void write() throws IOException {
-        ts_tj.write(ts + "," + tj);
+        ts_tj.write(ts + "," + tj + "\n");
         ts_tj.flush();
     }
 
@@ -71,6 +71,7 @@ public class TimeLogger {
         long tjStart = 0;
         long tjEnd = 0;
         long tj = 0;
+        long gap = 0;
         ts_tj.close();
     }
 }

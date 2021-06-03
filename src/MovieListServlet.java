@@ -5,6 +5,7 @@ import logging.TimeLogger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,12 @@ import java.sql.ResultSet;
 public class MovieListServlet extends HttpServlet {
 
     private DataSource dataSource;
+    String path;
 
-    public void init(ServletConfig config) {
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        path = getServletContext().getRealPath("/");
         try {
             dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
         } catch (NamingException e) {
@@ -31,7 +36,6 @@ public class MovieListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = getServletContext().getRealPath("/");
         TimeLogger logger = new TimeLogger(path);
         logger.startTSTimer();
 
@@ -270,6 +274,7 @@ public class MovieListServlet extends HttpServlet {
             out.write(jsonArray.toString());
             logger.endTSTimer();
             logger.write();
+            logger.end();
             // set response status to 200 (OK)
             response.setStatus(200);
         } catch (Exception e) {
@@ -282,6 +287,7 @@ public class MovieListServlet extends HttpServlet {
             logger.endTSTimer();
             logger.endTJTimer();
             logger.write();
+            logger.end();
 
             // set response status to 500 (Internal Server Error)
             response.setStatus(500);
