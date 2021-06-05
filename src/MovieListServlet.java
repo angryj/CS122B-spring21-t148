@@ -286,6 +286,7 @@ public class MovieListServlet extends HttpServlet {
 
             logger.endTSTimer();
             logger.endTJTimer();
+            logger.write();
             logger.end();
 
             // set response status to 500 (Internal Server Error)
