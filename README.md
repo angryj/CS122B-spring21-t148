@@ -36,15 +36,15 @@ The logic for determining the correct query is located in the file MovieListServ
 | Case 2: HTTP/10 threads                        | ![](path to image in img/)   | 244                        | 162.73                              | 162.46                    | 
 | Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | 317                        | 140.27                              | 139.98                    | 
 | Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | 236                        | 144.78                              | 144.26                    | 
-
-- #Analysis: Cases 1-4
-    Case 1: As the control for these cases, case 1 serves as the baseline for comparing all the cases in the single-instance test plan. As a base, we have about 107 ms average 
-    query time.
-    Case 2: With multithreading, we find that the TS and TJ values have increased substantially, however, this may be largely due to the way we implemented connection pooling, 
-    which added a 100ms delay.
-    Case 3: As with Case 2, multithreading reduces the overall speed of queries. However, this is exacerbated by the fact that requests from the HTTPS protocol thake much 
-    longer than HTTP protocols.
-    Case 4: 
+    
+#Analysis: Cases 1-4
+Case 1: As the control for these cases, case 1 serves as the baseline for comparing all the cases in the single-instance test plan. As a base, we have about 107 ms average 
+query time.
+Case 2: With multithreading, we find that the TS and TJ values have increased substantially, however, this may be largely due to the way we implemented connection pooling, 
+which added a 100ms delay.
+Case 3: As with Case 2, multithreading reduces the overall speed of queries. However, this is exacerbated by the fact that requests from the HTTPS protocol thake much 
+longer than HTTP protocols.
+Case 4: 
     
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
