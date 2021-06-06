@@ -68,7 +68,7 @@ We had two resources: one for the master, and one for the localhost(whether that
 | Case 1: HTTP/1 thread                          | ![]log/Single-instance, Single-threaded, HTTP, w Pooling.png   | 107                        | 28.71                               | 28.44                     |
 | Case 2: HTTP/10 threads                        | ![]log/Single-instance, Multi-threaded, HTTP, w Pooling.png   | 244                        | 162.73                              | 162.46                    | 
 | Case 3: HTTPS/10 threads                       | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.png   | 317                        | 140.27                              | 139.98                    | 
-| Case 4: HTTP/10 threads/No connection pooling  | ![]logSingle-instance, Multi-threaded, HTTPS, w Pooling.log   | 236                        | 144.78                              | 144.26                    | 
+| Case 4: HTTP/10 threads/No connection pooling  | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.png   | 236                        | 144.78                              | 144.26                    | 
     
 #Analysis: Cases 1-4  
     Case 1: As the control for these cases, case 1 serves as the baseline for comparing all the cases in the single-instance test plan. As a base, we have about 107 ms average   
@@ -78,7 +78,7 @@ We had two resources: one for the master, and one for the localhost(whether that
     Case 3: As with Case 2, multithreading reduces the overall speed of queries. However, this is exacerbated by the fact that requests from the HTTPS protocol thake much   
     longer than HTTP protocols.  
     Case 4: contrary to our expectations, for the single instance, requests without connection pooling proved to be more performant, which may have been caused by the way we  
-    implemented 
+    implemented the pooling. There was also the problem of too many connections, which meant that each query had to wait for a connection.
     
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
@@ -87,5 +87,6 @@ We had two resources: one for the master, and one for the localhost(whether that
 | Case 3: HTTP/10 threads/No connection pooling  | ![]/Scaled, Multi-threaded, HTTP, wo pooling/Scaled, Multi-threaded, HTTP, wo pooling.png  | 147                        | 87.38                               | 87.00                     |
 
 #Analysis: Cases 1-3  
+Case 1: like for the single instance test, Case 1 of the scaled version serves as the control for which the other cases are compared to. The TS and TJ times in general are very fast, especially compared for the single instance, as the load is split between and master and salve instances  
     
 
