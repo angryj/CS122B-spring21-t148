@@ -52,10 +52,10 @@ Connection Pooling
     https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/src/AddStarServlet.java
     https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/src/ConfirmationServlet.java
     
-    the rest of the servlets use local host, which can be either the master or the slave (because those servlets only do read operations)
+    the rest of the servlets use the second resource that uses localhost, which can be either the master or the slave (because those servlets only do read operations)
     
 - #### How read/write requests were routed to Master/Slave SQL?
-We had two resources: one for the master, and one for the localhost(whether that was master/slave). For write operations, we used the master resource to ensure that any write operation was only done by the master (and updated to the slave). For read operations, local host was used so that either the master or the slave can do the read
+We had two resources: one for the master, and one for the localhost(whether that was master/slave). For write operations, we used the master resource to ensure that any write operation was only done by the master (and updated to the slave). For read operations, local host was used so that either the master or the slave can do the read, depending on which instance the session was connected to.
 
 
 # JMeter TS/TJ Time Logs
