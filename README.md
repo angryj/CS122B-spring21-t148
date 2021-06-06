@@ -1,29 +1,60 @@
-### CS 122B Project 4
-Demo: 
+General
+Team#: 148 Names: Angelo Basa, Jason Wu Project 5 Video Demo Link:
+  https://www.youtube.com/watch?v=7k3HcGHrfi0
 
-### To run this:
-1. Clone the repo: https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148.git
-2. Run mvn package on the repo to create a .war file
-3. Populate the moviedb database using movie-data.sql and create_tables.sql and new-table.sql files (The steps are as follows)
+Instruction of deployment:
+       Clone the repo: https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148.git
+        Run mvn package on the repo to create a .war file
+        Populate the moviedb database using movie-data.sql and create_tables.sql and new-table.sql files (The steps are as follows)
+        Create database moviedb
 
-Create database moviedb
+        use moviedb
 
-use moviedb
+        Source create_tables.sql
 
-Source create_tables.sql
+        Source movie-data.sql
 
-Source movie-data.sql
+        Source new-table.sql
 
-Source new-table.sql
+        Go back to the repo directory and Use cp ./target/*.war /var/lib/tomcat9/webapps/ to push the .war file into tomcat
 
+        Refresh tomcat on the web browser, and the deployed project should appear.
 
-Go back to the repo directory and Use cp ./target/*.war /var/lib/tomcat9/webapps/ to push the .war file into tomcat
+Collaborations and Work Distribution:
+Angelo: Connection pooling, master slave, debugging
+Jason: Master slave, jmeter, debugging
 
-Refresh tomcat on the web browser, and the deployed project should appear.
+Connection Pooling
+# Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+  https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/WebContent/META-INF/context.xml
+# Explain how Connection Pooling is utilized in the Fabflix code.
+    We used connection pooling so that there is a pool of up to 100 connections, 
+    where any thread is able to connect to them if they are available. These       
+    connections are needed for any time the db is called: searching, checking out, autocomplete, etc. 
+    These connections are freed up and reused by the next database request, which should speed up each request.
+   #   Explain how Connection Pooling works with two backend SQL.
+     Each backend sql has its own connection pool; there would be no need to share a pool between the two because 
+     one of them is a connection for writing and       another is for reading/writing. The connections wouldnt be 
+     reused between the two backend sql's because of their different purposes so sharing a pool is pointless.
 
-### Substring Matching Design:
-For title, director, and star, we used the pattern % + search_term + % to get the mysql result we wanted.
-The logic for determining the correct query is located in the file MovieListServlet.java, lines 128-157
+# Master/Slave
+- #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+    https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/WebContent/META-INF/context.xml
+    has the two master slave resources ^^^
+    
+    https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/apacheconfigurations.txt
+    load balancer routing configurations ^^^
+    
+    each servlet has master slave routing, depending on if it's for writing or reading. The following 3 use the master resource:
+    https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/src/AddMovieServlet.java
+    https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/src/AddStarServlet.java
+    https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/src/ConfirmationServlet.java
+    
+    the rest of the servlets use local host, which can be either the master or the slave (because those servlets only do read operations)
+    
+- #### How read/write requests were routed to Master/Slave SQL?
+We had two resources: one for the master, and one for the localhost(whether that was master/slave). For write operations, we used the master resource to ensure that any write operation was only done by the master (and updated to the slave). For read operations, local host was used so that either the master or the slave can do the read
+
 
 # JMeter TS/TJ Time Logs
     - #### with logProcessor.py, simply run it with python logProcessor.py <relativeFilePath1> <relativeFilePath2> ... <relativeFilePathX> 
