@@ -32,9 +32,9 @@ The logic for determining the correct query is located in the file MovieListServ
 
 | **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
-| Case 1: HTTP/1 thread                          | ![]log/Single-instance, Single-threaded, HTTP, w Pooling.log   | 107                        | 28.71                               | 28.44                     |
-| Case 2: HTTP/10 threads                        | ![]log/Single-instance, Multi-threaded, HTTP, w Pooling.log   | 244                        | 162.73                              | 162.46                    | 
-| Case 3: HTTPS/10 threads                       | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.log   | 317                        | 140.27                              | 139.98                    | 
+| Case 1: HTTP/1 thread                          | ![]log/Single-instance, Single-threaded, HTTP, w Pooling.png   | 107                        | 28.71                               | 28.44                     |
+| Case 2: HTTP/10 threads                        | ![]log/Single-instance, Multi-threaded, HTTP, w Pooling.png   | 244                        | 162.73                              | 162.46                    | 
+| Case 3: HTTPS/10 threads                       | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.png   | 317                        | 140.27                              | 139.98                    | 
 | Case 4: HTTP/10 threads/No connection pooling  | ![]logSingle-instance, Multi-threaded, HTTPS, w Pooling.log   | 236                        | 144.78                              | 144.26                    | 
     
 #Analysis: Cases 1-4  
@@ -49,9 +49,9 @@ The logic for determining the correct query is located in the file MovieListServ
     
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | 110                        | 22.02                               | 21.74                     |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | 144                        | 54.43                               | 54.22                     |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | 147                        | 87.38                               | 87.00                     |
+| Case 1: HTTP/1 thread                          | ![]/Scaled, Single-threaded, HTTP, w pooling/Scaled, Single-threaded, HTTP, w pooling.png   | 110                        | 22.02                               | 21.74                     |
+| Case 2: HTTP/10 threads                        | ![]/Scaled, Multi-threaded, HTTP, w pooling/Scaled, Multi-threaded, HTTP, w pooling.png   | 144                        | 54.43                               | 54.22                     |
+| Case 3: HTTP/10 threads/No connection pooling  | ![]/Scaled, Multi-threaded, HTTP, wo pooling/Scaled, Multi-threaded, HTTP, wo pooling.png  | 147                        | 87.38                               | 87.00                     |
 
 #Analysis: Cases 1-3  
     
