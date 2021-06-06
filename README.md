@@ -1,8 +1,10 @@
-General
-Team#: 148 Names: Angelo Basa, Jason Wu Project 5 Video Demo Link:
+# General
+
+Team#: 148 Names: Angelo Basa, Jason Wu 
+Project 5 Video Demo Link:
   https://www.youtube.com/watch?v=7k3HcGHrfi0
 
-Instruction of deployment:
+# Instruction of deployment:
        Clone the repo: https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148.git
         Run mvn package on the repo to create a .war file
         Populate the moviedb database using movie-data.sql and create_tables.sql and new-table.sql files (The steps are as follows)
@@ -20,7 +22,7 @@ Instruction of deployment:
 
         Refresh tomcat on the web browser, and the deployed project should appear.
 
-Collaborations and Work Distribution:
+# Collaborations and Work Distribution:
 Angelo: Connection pooling, master slave, debugging
 Jason: Master slave, jmeter, debugging
 
