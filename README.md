@@ -25,10 +25,10 @@ Refresh tomcat on the web browser, and the deployed project should appear.
 For title, director, and star, we used the pattern % + search_term + % to get the mysql result we wanted.
 The logic for determining the correct query is located in the file MovieListServlet.java, lines 128-157
 
-- # JMeter TS/TJ Time Logs
+# JMeter TS/TJ Time Logs
     - #### with logProcessor.py, simply run it with python logProcessor.py <relativeFilePath1> <relativeFilePath2> ... <relativeFilePathX> 
 
-- # JMeter TS/TJ Time Measurement Report
+# JMeter TS/TJ Time Measurement Report
 
 | **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
@@ -37,7 +37,7 @@ The logic for determining the correct query is located in the file MovieListServ
 | Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | 317                        | 140.27                              | 139.98                    | 
 | Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | 236                        | 144.78                              | 144.26                    | 
     
-#Analysis: Cases 1-4
+#Analysis: Cases 1-4  
     Case 1: As the control for these cases, case 1 serves as the baseline for comparing all the cases in the single-instance test plan. As a base, we have about 107 ms average   
     query time.  
     Case 2: With multithreading, we find that the TS and TJ values have increased substantially, however, this may be largely due to the way we implemented connection pooling,   
