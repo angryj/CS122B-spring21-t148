@@ -88,5 +88,7 @@ We had two resources: one for the master, and one for the localhost(whether that
 
 #Analysis: Cases 1-3  
 Case 1: like for the single instance test, Case 1 of the scaled version serves as the control for which the other cases are compared to. The TS and TJ times in general are very fast, especially compared for the single instance, as the load is split between and master and salve instances  
+Case 2: Compared to Case 1, the multithreaded test takes longer for the overall query time. However, because the load is split between master and slave, the average query time is much less than that of the single instance version  
+Case 3: Because our deployment in Case 3 did not implement connection pooling, it compared poorly, especially in comparison to our test during case 2.  
     
 
