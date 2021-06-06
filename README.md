@@ -65,10 +65,10 @@ We had two resources: one for the master, and one for the localhost(whether that
 
 | **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
-| Case 1: HTTP/1 thread                          |  ![](./img/Single-instance, Single-threaded, HTTP, w Pooling.png)   | 107                        | 28.71                               | 28.44                     |
-| Case 2: HTTP/10 threads                        | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/logs/Single-instance%2C%20Single-threaded%2C%20HTTP%2C%20w%20Pooling.png)   | 244                        | 162.73                              | 162.46                    | 
-| Case 3: HTTPS/10 threads                       | ![](Single-instance, Multi-threaded, HTTPS, w Pooling.png)   | 317                        | 140.27                              | 139.98                    | 
-| Case 4: HTTP/10 threads/No connection pooling  | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.png   | 236                        | 144.78                              | 144.26                    | 
+| Case 1: HTTP/1 thread                          |  ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Single-instance%2C%20Single-threaded%2C%20HTTP%2C%20w%20Pooling.png)   | 107                        | 28.71                               | 28.44                     |
+| Case 2: HTTP/10 threads                        | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Single-instance%2C%20Multi-threaded%2C%20HTTP%2C%20w%20Pooling.png)   | 244                        | 162.73                              | 162.46                    | 
+| Case 3: HTTPS/10 threads                       | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Single-instance%2C%20Multi-threaded%2C%20HTTPS%2C%20w%20Pooling.png)   | 317                        | 140.27                              | 139.98                    | 
+| Case 4: HTTP/10 threads/No connection pooling  | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Single-instance%2C%20Multi-threaded%2C%20HTTP%2C%20wo%20Pooling.png)   | 236                        | 144.78                              | 144.26                    | 
     
 #Analysis: Cases 1-4  
     Case 1: As the control for these cases, case 1 serves as the baseline for comparing all the cases in the single-instance test plan. As a base, we have about 107 ms average   
@@ -82,9 +82,9 @@ We had two resources: one for the master, and one for the localhost(whether that
     
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
-| Case 1: HTTP/1 thread                          | ![]/Scaled, Single-threaded, HTTP, w pooling/Scaled, Single-threaded, HTTP, w pooling.png   | 110                        | 22.02                               | 21.74                     |
-| Case 2: HTTP/10 threads                        | ![]/Scaled, Multi-threaded, HTTP, w pooling/Scaled, Multi-threaded, HTTP, w pooling.png   | 144                        | 54.43                               | 54.22                     |
-| Case 3: HTTP/10 threads/No connection pooling  | ![]/Scaled, Multi-threaded, HTTP, wo pooling/Scaled, Multi-threaded, HTTP, wo pooling.png  | 147                        | 87.38                               | 87.00                     |
+| Case 1: HTTP/1 thread                          | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Scaled%2C%20Single-threaded%2C%20HTTP%2C%20w%20pooling.png)   | 110                        | 22.02                               | 21.74                     |
+| Case 2: HTTP/10 threads                        | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Scaled%2C%20Multi-threaded%2C%20HTTP%2C%20w%20pooling.png)   | 144                        | 54.43                               | 54.22                     |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/img/Scaled%2C%20Multi-threaded%2C%20HTTP%2C%20wo%20pooling.png)  | 147                        | 87.38                               | 87.00                     |
 
 #Analysis: Cases 1-3  
 Case 1: like for the single instance test, Case 1 of the scaled version serves as the control for which the other cases are compared to. The TS and TJ times in general are very fast, especially compared for the single instance, as the load is split between and master and salve instances  
