@@ -65,7 +65,7 @@ We had two resources: one for the master, and one for the localhost(whether that
 
 | **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
-| Case 1: HTTP/1 thread                          |  ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/logs/Single-instance%2C%20Multi-threaded%2C%20HTTP%2C%20w%20Pooling.png)   | 107                        | 28.71                               | 28.44                     |
+| Case 1: HTTP/1 thread                          |  ![]("img/Single-instance, Single-threaded, HTTP, w Pooling.png")   | 107                        | 28.71                               | 28.44                     |
 | Case 2: HTTP/10 threads                        | ![](https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/main/logs/Single-instance%2C%20Single-threaded%2C%20HTTP%2C%20w%20Pooling.png)   | 244                        | 162.73                              | 162.46                    | 
 | Case 3: HTTPS/10 threads                       | ![](Single-instance, Multi-threaded, HTTPS, w Pooling.png)   | 317                        | 140.27                              | 139.98                    | 
 | Case 4: HTTP/10 threads/No connection pooling  | ![]log/Single-instance, Multi-threaded, HTTPS, w Pooling.png   | 236                        | 144.78                              | 144.26                    | 
