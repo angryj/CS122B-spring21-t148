@@ -37,10 +37,21 @@ https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/Movi
 https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/ShoppingCartServlet.java
 https://github.com/UCI-Chenli-teaching/cs122b-spring21-team-148/blob/p3/src/StarServlet.java
 
-### Contributions:
+- # JMeter TS/TJ Time Measurement Report
 
-Jason- Part 2
+| **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
+|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
+| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | 107                        | 28.71                               | 28.44                     |
+| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | 244                        | 162.73                              | 162.46                    | 
+| Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | 317                        | 140.27                              | 139.98                    | 
+| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | 236                        | 144.78                              | 144.26                    | 
 
-Angelo- Part 1
+- #Analysis: Cases 1-4
 
-Both: Debugging, CSS
+| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | 
+|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------
+| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | 110                        | 22.02                               | 21.74                     |
+| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | 144                        | 54.43                               | 54.22                     |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | 147                        | 87.38                               | 87.00                     |
+
+
